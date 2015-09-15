@@ -1,0 +1,69 @@
+.bs-example {
+  width: 250px;
+  margin: 0 auto;
+}
+
+#decklistSpan {
+  display:block;
+  margin-top: 20px;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 1.5px 5px;
+}
+
+.list-group-item {
+  font-size: 11px;
+  padding: 8px 8px;
+}
+
+.card-count {
+  margin-right: 5px;
+}
+
+.mana-symbol {
+  width: 16px;
+  height: 16px;
+}
+
+#deck {
+  resize: none;
+  margin-bottom: 5px;
+}
+
+#decklistvisual {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.pile {
+  position: relative;
+  float: left;
+  width: 223px;
+  height: 310px;
+  margin-right: 10px;
+  margin-bottom: 109px;
+}
+
+.card {
+  position: absolute;
+  width: 223px;
+  height: 310px;
+  border-radius: 13px;
+}
+
+.first {
+}
+
+.second {
+  top: 33px;
+}
+
+.third {
+  top: 66px;
+}
+
+.fourth {
+  top: 99px;
+}
