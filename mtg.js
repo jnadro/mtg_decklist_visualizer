@@ -16,11 +16,22 @@ var testCards =
 "4 Draco\n" +
 "4 Progenitus\n" +
 "4 Cruel Ultimatum\n" +
+"4 Thistledown Liege\n" +
+"4 Deathbringer Liege\n" +
+"4 Glen Elendra Liege\n" +
+"4 Mindwrack Liege\n" +
 "4 Ashenmoor Liege\n" +
 "4 Balefire Liege\n" +
 "4 Boartusk Liege\n" +
 "4 Creakwood Liege\n" +
-"4 Deathbringer Liege\n";
+"4 Wilt-Leaf Liege\n" +
+"4 Murkfiend Liege\n" +
+"4 Reaper King\n" +
+"4 Apostle's Blessing\n" +
+"4 Gitaxian Probe\n" +
+"4 Gut Shot\n" +
+"4 Vault Skirge\n" +
+"4 Birthing Pod";
 
 document.getElementById("deck").setAttribute("placeholder", testCards);
 
