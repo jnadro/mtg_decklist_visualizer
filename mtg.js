@@ -1,26 +1,26 @@
 var testCards =
-"1 Lion's Eye Diamond\n" +
-"1 Sol Ring\n" +
-"1 Winter Orb\n" +
-"1 Chimeric Idol\n" +
-"1 Masticore\n" +
-"1 Karn, Silver Golem\n" +
-"1 Mindslaver\n" +
-"1 Spine of Ish Sah\n" +
-"1 Ugin, the Spirit Dragon\n" +
-"1 Darksteel Forge\n" +
-"1 Kozilek, Butcher of Truth\n" +
-"1 Darksteel Colossus\n" +
-"1 Blightsteel Colossus\n" +
-"1 Emrakul, the Aeons Torn\n" +
-"1 Draco\n" +
-"1 Progenitus\n" +
-"1 Cruel Ultimatum\n" +
-"1 Ashenmoor Liege\n" +
-"1 Balefire Liege\n" +
-"1 Boartusk Liege\n" +
-"1 Creakwood Liege\n" +
-"1 Deathbringer Liege\n";
+"4 Lion's Eye Diamond\n" +
+"4 Sol Ring\n" +
+"4 Winter Orb\n" +
+"4 Chimeric Idol\n" +
+"4 Masticore\n" +
+"4 Karn, Silver Golem\n" +
+"4 Mindslaver\n" +
+"4 Spine of Ish Sah\n" +
+"4 Ugin, the Spirit Dragon\n" +
+"4 Darksteel Forge\n" +
+"4 Kozilek, Butcher of Truth\n" +
+"4 Darksteel Colossus\n" +
+"4 Blightsteel Colossus\n" +
+"4 Emrakul, the Aeons Torn\n" +
+"4 Draco\n" +
+"4 Progenitus\n" +
+"4 Cruel Ultimatum\n" +
+"4 Ashenmoor Liege\n" +
+"4 Balefire Liege\n" +
+"4 Boartusk Liege\n" +
+"4 Creakwood Liege\n" +
+"4 Deathbringer Liege\n";
 
 document.getElementById("deck").setAttribute("placeholder", testCards);
 
