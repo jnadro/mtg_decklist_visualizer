@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+.complex-symbol-base:after, .snow:after, .mana-snow:after, .tap-8th:after, .untap-8th:after, .hybrid:after, .hybrid-wu:after, .hybrid-wb:after, .hybrid-ub:after, .hybrid-ur:after, .hybrid-br:after, .hybrid-bg:after, .hybrid-rg:after, .hybrid-rw:after, .hybrid-gw:after, .hybrid-gu:after, .hybrid-2w:after, .hybrid-2u:after, .hybrid-2b:after, .hybrid-2r:after, .hybrid-2g:after {
+  position: relative;
+}
+
 #decklistSpan {
   display:block;
   margin-top: 20px;

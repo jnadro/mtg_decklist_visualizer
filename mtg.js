@@ -105,8 +105,11 @@ function drawDeckList(parent, decklist) {
       manaSymbols.push(items);
     });
 
+    var spans = li.append("span")
+        .attr("class", "pull-right");
+
     // Add an image for each mana symbol on each card.
-    li.selectAll("i")
+    spans.selectAll("i")
       .data(function(d, i) { return manaSymbols[i]; })
       .enter().append("i")
       .attr("class", function(d) {
