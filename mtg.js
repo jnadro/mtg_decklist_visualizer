@@ -76,7 +76,7 @@ function drawDeckList(parent, decklist) {
     .data(decklist)
     .enter().append("li")
     .attr("class", "list-group-item")
-    .html(function(d) { return d.name; });
+    .html(function(d) { return d.count + "x " + d.name; });
 
     // Gather all the mana symbols for each card in the decklist.
     var manaSymbols = [];
@@ -116,11 +116,6 @@ function drawDeckList(parent, decklist) {
         return "mtg " + convertManaSymbolToClass(d);
       })
       .style("font-size", "16px");
-
-    // Add the card count.
-    li.append("span")
-    .attr("class", "card-count badge pull-left")
-    .html(function(d) { return d.count; });
 }
 
 function updateUI(deckliststring) {
