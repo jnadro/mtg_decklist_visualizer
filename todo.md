@@ -4,3 +4,7 @@
 2. move card entry code/html into a "view" function and separate js file.
 3. move deckclist code into a "view" function and separate js file.
 4. add the ability to replace the card entry view for the decklist view when you submit.
+5. add local storage of decklists
+6. add dropdown menu to show all decklists in local storage
+7. right function to calculate mana curve from decklist
+	a. it generates an array that can be fed to d3js to generate a chart.
