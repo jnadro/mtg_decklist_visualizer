@@ -94,7 +94,17 @@ function drawDeckList(parent, decklist) {
                         .map(function(string) {
                           var i = string.indexOf("/");
                           if (i > -1) {
-                            string = "hybrid-" + string.replace("/", "");
+                            var hybrid = string.split("/");
+                            if (hybrid.length === 2) {
+                              // phyrexian mana symbol
+                              if (hybrid[1] === "P") {
+                                string = "phyrexian-" + hybrid[0];
+                              }
+                              // hybrid mana symbol (B/R)
+                              else {
+                                string = "hybrid-" + string.replace("/", "");
+                              }
+                            }
                           }
                           else {
                             string = "mana-" + string;
