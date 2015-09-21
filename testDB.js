@@ -78,5 +78,5 @@ test("Existing Database", function() {
   db.insert(testObj);
 
   var newDb = new Database("testDatabase");
-  assert(newDb.length() === 2, "Database by the same name shouhld have the same items.");
+  assert(newDb.length() === 2, "Database by the same name should have the same items.");
 });

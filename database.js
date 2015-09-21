@@ -17,7 +17,7 @@ function Database(name) {
   this.name = name;
   this.storage = localStorage;
 
-  this.data = this.storage.getItem(this.name);
+  this.data = JSON.parse(this.storage.getItem(this.name));
   if (this.data === null) {
     this.clear();    
   }
