@@ -8,3 +8,12 @@
 6. add dropdown menu to show all decklists in local storage
 7. right function to calculate mana curve from decklist
 	a. it generates an array that can be fed to d3js to generate a chart.
+
+## Legend
+
+X == 25 minutes of uninterrupted work.
+
+#### 9-21-15
+
+##### Local Storage
+X
