@@ -36,6 +36,14 @@ test("Database Insert", function() {
   var i = db.insert(testObj);
   assert(db.length() === 1, "Database should only contain 1 object.");
   assert(i === 0, "Insert should return the index of the object.");
+
+  var collection = JSON.parse(window.localStorage.getItem(db.name));
+  assert(Array.isArray(collection) === true, "Collection should be an array.");
+  assert(collection.length === 1, "Serialized collection should contain 1 object.");
+  assert(compareObjects(collection[0], testObj), "First item in collection should be testObj.");
+
+  i = db.insert(testObj);
+  assert(db.length() === 2, "Database should contain 2 objects.");
 });
 
 test("Database Find", function() {
@@ -62,4 +70,13 @@ test("Database Clear", function() {
 
   db.clear();
   assert(db.length() === 0, "Database should be empty after a clear.");
+});
+
+test("Existing Database", function() {
+  var db = new Database("testDatabase");
+  db.insert(testObj);
+  db.insert(testObj);
+
+  var newDb = new Database("testDatabase");
+  assert(newDb.length() === 2, "Database by the same name shouhld have the same items.");
 });

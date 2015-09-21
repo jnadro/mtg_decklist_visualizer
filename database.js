@@ -17,8 +17,10 @@ function Database(name) {
   this.name = name;
   this.storage = localStorage;
 
-  // @todo handling loading existing data from local storage.
-  this.clear();
+  this.data = this.storage.getItem(this.name);
+  if (this.data === null) {
+    this.clear();    
+  }
 }
 
 /**
@@ -50,8 +52,9 @@ Database.prototype.length = function() {
  * @param {object} value - 
  */
 Database.prototype.insert = function(value) {
+  var i = this.data.push(value) - 1;
   this.storage.setItem(this.name, JSON.stringify(this.data));
-  return this.data.push(value) - 1;
+  return i;
 };
 
 /**
