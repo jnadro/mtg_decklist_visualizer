@@ -128,6 +128,9 @@ function drawDeckList(parent, decklist) {
       .style("font-size", "16px");
 }
 
+function renderDropdown(parent, decks) {
+}
+
 function updateUI(deckliststring) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
