@@ -129,16 +129,38 @@ function drawDeckList(parent, decklist) {
 }
 
 function renderDropdown(parent, decks) {
+    d3.select(parent)
+      .selectAll("option")
+      .data(decks)
+      .enter().append("option")
+      .html(function(d) { return d.name; });
 }
 
 function updateUI(deckliststring) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
+  document.getElementById("deckDatabase").innerHTML = "";
 
   getJSONCardData(deckliststring, function(jsonDeck) {
     // populate with initial data.
     drawDecklist("#visualdecklist", jsonDeck);
     drawDeckList("#decklist", jsonDeck);
+    renderDropdown("#deckDatabase", [
+    {
+      name: "Elves"
+    },
+    {
+      name: "ANT"
+    },
+    {
+      name: "UBRG"
+    },
+    {
+      name: "Grixis Delver"
+    },
+    {
+      name: "Esper Deathblade"
+    }]);
   });
 }
 
