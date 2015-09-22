@@ -15,7 +15,5 @@
 
 X == 25 minutes of uninterrupted work.
 
-#### 9-21-15
-
 ##### Local Storage
-XX
+XXX
