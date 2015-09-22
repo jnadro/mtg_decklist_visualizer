@@ -90,3 +90,14 @@ Database.prototype.delete = function(i) {
   this.data.splice(i, 1);
   this.storage.setItem(this.name, JSON.stringify(this.data));
 };
+
+/**
+ * Returns all objects in the collection.
+ *
+ * @this {Database}
+ * @todo Make this a generic version of find.
+ */
+Database.prototype.query = function() {
+  return this.data;
+};
+

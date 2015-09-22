@@ -80,3 +80,16 @@ test("Existing Database", function() {
   var newDb = new Database("testDatabase");
   assert(newDb.length() === 2, "Database by the same name should have the same items.");
 });
+
+test("Querying all items", function() {
+  var db = new Database("testDatabase");
+  var items = db.query();
+  assert(Array.isArray(items) === true, "Queried items should be an array.");
+  assert(items.length === 0, "Array should be empty.");
+
+  db.insert(testObj);
+  db.insert(testObj);
+  db.insert(testObj);
+
+  assert(items.length === 3, "Should have 3 items after 3 insertions.");
+});

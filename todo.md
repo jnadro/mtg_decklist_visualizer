@@ -8,6 +8,8 @@
 6. add dropdown menu to show all decklists in local storage
 7. right function to calculate mana curve from decklist
 	a. it generates an array that can be fed to d3js to generate a chart.
+8. should make query accept a function that can be used to filter items.
+9. make query and find the same function.
 
 ## Legend
 
