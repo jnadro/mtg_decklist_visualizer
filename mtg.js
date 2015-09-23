@@ -136,7 +136,7 @@ function renderDropdown(parent, decks) {
       .html(function(d) { return d.name; });
 }
 
-var db = new Database("Decks", "name"),
+var db = new Database("Decks", "name");
 
 function updateUI(deckname, deckliststring) {
   document.getElementById("visualdecklist").innerHTML  = "";
