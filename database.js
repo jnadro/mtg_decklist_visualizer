@@ -12,9 +12,10 @@
  * @param {string} name - Used to uniquely identify the database.
  * @constructor
  */
-function Database(name) {
+function Database(name, uniqueId) {
   // @todo should really make this data private
   this.name = name;
+  this.uniqueId = uniqueId || "";
   this.storage = localStorage;
 
   this.data = JSON.parse(this.storage.getItem(this.name));
@@ -49,11 +50,23 @@ Database.prototype.length = function() {
  * the collection.
  *
  * @this {Database}
- * @param {object} value - 
+ * @param {object} value - The object to insert.
  */
 Database.prototype.insert = function(value) {
+  if (this.uniqueId !== "") {
+    for (var i = 0; i < this.data.length; i++) {
+      // @todo What if this.uniqueId is undefined for either?
+      // @todo What if the property is an object?
+      // @todo What if the property is an array?
+      if (this.data[i][this.uniqueId] === value[this.uniqueId]) {
+        return i;
+      }
+    } 
+  }
+
   var i = this.data.push(value) - 1;
-  this.storage.setItem(this.name, JSON.stringify(this.data));
+  this.storage.setItem(this.name, JSON.stringify(this.data));   
+
   return i;
 };
 

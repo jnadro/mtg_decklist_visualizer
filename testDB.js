@@ -28,7 +28,7 @@ function test(name, testFunc) {
 
 test("Database Constructor", function() {
   var db = new Database("testDatabase");
-  assert(db.length() === 0, "Database should be empty upon creation");
+  assert(db.length() === 0, "Database should be empty upon creation.");
 });
 
 test("Database Insert", function() {
@@ -44,6 +44,18 @@ test("Database Insert", function() {
 
   i = db.insert(testObj);
   assert(db.length() === 2, "Database should contain 2 objects.");
+});
+
+test("Database unique insert", function() {
+  var db = new Database("testDatabase", "name");
+  var i = db.insert(testObj);
+  var j = db.insert(testObj);
+  assert(db.length() === 1, "Inserting the same object shouldn't work.");
+  assert(i === j, "Inserting the same object should give the same index.");
+
+  var k = db.insert({ name: "New Item", number: 42 });
+  assert(db.length() === 2, "Insert of new object should work.");
+  assert(k !== i, "Index of new object should be different.");
 });
 
 test("Database Find", function() {
