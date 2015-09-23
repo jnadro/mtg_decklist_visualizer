@@ -136,12 +136,18 @@ function renderDropdown(parent, decks) {
       .html(function(d) { return d.name; });
 }
 
-function updateUI(deckliststring) {
+var db = new Database("Decks", "name"),
+
+function updateUI(deckname, deckliststring) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
 
   getJSONCardData(deckliststring, function(jsonDeck) {
+    jsonDeck["name"] = deckname;
+    // @todo If the deck already exists update it.
+    var i = db.insert(jsonDeck);
+
     // populate with initial data.
     drawDecklist("#visualdecklist", jsonDeck);
     drawDeckList("#decklist", jsonDeck);
@@ -164,10 +170,12 @@ function updateUI(deckliststring) {
   });
 }
 
-updateUI(testCards);
+updateUI("Test CC Deck", testCards);
 
-var btn  = document.getElementById("build");
+var btn = document.getElementById("build"),
+    deckname = document.getElementById("deckname");
+
 btn.addEventListener("click", function(event) {
   event.preventDefault();
-  updateUI(document.getElementById("deck").value);
+  updateUI(deckname.value || "Temp Name", document.getElementById("deck").value);
 });
