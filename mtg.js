@@ -181,11 +181,12 @@ fetchCards("Test CC Deck", testCards, function(jsonDeck) {
 });
 
 var btn = document.getElementById("build"),
-    deckname = document.getElementById("deckname");
+    decknameTxt = document.getElementById("deckname");
 
 btn.addEventListener("click", function(event) {
   event.preventDefault();
-  fetchCards(deckname.value || "Temp Name", document.getElementById("deck").value, function(jsonDeck) {
+  var deckname = decknameTxt.value || "Temp Name";
+  fetchCards(deckname, document.getElementById("deck").value, function(jsonDeck) {
     // @todo If the deck already exists update it.
     var i = db.insert({
       name: deckname,
