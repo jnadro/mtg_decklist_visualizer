@@ -151,22 +151,7 @@ function updateUI(deckname, deckliststring) {
     // populate with initial data.
     drawDecklist("#visualdecklist", jsonDeck);
     drawDeckList("#decklist", jsonDeck);
-    renderDropdown("#deckDatabase", [
-    {
-      name: "Elves"
-    },
-    {
-      name: "ANT"
-    },
-    {
-      name: "UBRG"
-    },
-    {
-      name: "Grixis Delver"
-    },
-    {
-      name: "Esper Deathblade"
-    }]);
+    renderDropdown("#deckDatabase", db.query());
   });
 }
 
