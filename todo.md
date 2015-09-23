@@ -10,7 +10,7 @@
 	a. it generates an array that can be fed to d3js to generate a chart.
 8. should make query accept a function that can be used to filter items.
 9. make query and find the same function.
-10. refactor and separate deck retrival and updating the UI.
+~~ 10. refactor and separate deck retrival and updating the UI. ~~
 11. selection from the dropdown updates the UI.
 
 ## Legend

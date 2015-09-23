@@ -1,3 +1,9 @@
+/**
+ * @author Jason Nadro
+ * @license MIT
+ * @version 0.1
+ */
+
 var testCards =
 "4 Lion's Eye Diamond\n" +
 "4 Sol Ring\n" +
@@ -138,31 +144,54 @@ function renderDropdown(parent, decks) {
 
 var db = new Database("Decks", "name");
 
-function updateUI(deckname, deckliststring) {
+/**
+ * Given a string containing the count and card names of all the cards in 
+ * the deck it will return back the JSON card data from: https://deckbrew.com/api/
+ * The json card data adheres to the form defined from: http://mtgjson.com/
+ *
+ * @param {string} deckname       - The name of the deck which is used as
+ *                                  a unique identifier into the database.
+ * @param {string} deckliststring - Newline separated list of all the cards
+ *                                  in the deck.
+ */
+function fetchCards(deckname, deckliststring, callback) {
+  getJSONCardData(deckliststring, callback);  
+}
+
+/**
+ * Renders all the UI elements with the given card
+ * data.
+ *
+ * @param {array} jsonDeck - An array containing a json object
+ *                           for each card in the deck.
+ */
+function renderUI(jsonDeck) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
 
-  getJSONCardData(deckliststring, function(jsonDeck) {
-    // @todo If the deck already exists update it.
-    var i = db.insert({
-      name: deckname,
-      cards: jsonDeck
-    });
-
-    // populate with initial data.
-    drawDecklist("#visualdecklist", jsonDeck);
-    drawDeckList("#decklist", jsonDeck);
-    renderDropdown("#deckDatabase", db.query());
-  });
+  drawDecklist("#visualdecklist", jsonDeck);
+  drawDeckList("#decklist", jsonDeck);
+  renderDropdown("#deckDatabase", db.query());
 }
 
-updateUI("Test CC Deck", testCards);
+fetchCards("Test CC Deck", testCards, function(jsonDeck) {
+  console.log(jsonDeck);
+  renderUI(jsonDeck);
+});
 
 var btn = document.getElementById("build"),
     deckname = document.getElementById("deckname");
 
 btn.addEventListener("click", function(event) {
   event.preventDefault();
-  updateUI(deckname.value || "Temp Name", document.getElementById("deck").value);
+  fetchCards(deckname.value || "Temp Name", document.getElementById("deck").value, function(jsonDeck) {
+    // @todo If the deck already exists update it.
+    var i = db.insert({
+      name: deckname,
+      cards: jsonDeck
+    });
+
+    renderUI(jsonDeck);
+  });
 });
