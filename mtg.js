@@ -144,9 +144,11 @@ function updateUI(deckname, deckliststring) {
   document.getElementById("deckDatabase").innerHTML = "";
 
   getJSONCardData(deckliststring, function(jsonDeck) {
-    jsonDeck["name"] = deckname;
     // @todo If the deck already exists update it.
-    var i = db.insert(jsonDeck);
+    var i = db.insert({
+      name: deckname,
+      cards: jsonDeck
+    });
 
     // populate with initial data.
     drawDecklist("#visualdecklist", jsonDeck);
