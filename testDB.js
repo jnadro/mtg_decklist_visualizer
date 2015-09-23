@@ -1,3 +1,9 @@
+/**
+ * @author Jason Nadro
+ * @license MIT
+ * @version 0.1
+ */
+ 
 var testObj = {
       name: "Lorem Ipsum",
       number: 101.1
