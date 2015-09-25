@@ -49,6 +49,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <span id="cardEntrySpan">
             <h4 class="sub-header">Card Entry</h2>
+            <input id="deckname" type="text" class="form-control" placeholder="Deckname">
             <textarea id="deck" class="form-control" rows="25" spellcheck="false"></textarea>
             <button id="build" type="submit" class="btn btn-primary btn-block">Submit</button>          
           </span>
@@ -77,8 +78,14 @@
               <span class="text-muted">Something else</span>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Cost</h4>
-              <span class="text-muted">Something else</span>
+              <h4>Deck Database</h4>
+              <form class="form-inline">
+                <button id="clearDecks" type="button" class="btn btn-default" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+                <select id="deckDatabase" class="form-control">
+                </select>
+              </form>
             </div>
           </div>
 
@@ -93,6 +100,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="database.js"></script>
     <script src="decklistToJSON.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
     <script src="mtg.js"></script>

@@ -1,3 +1,9 @@
+/**
+ * @author Jason Nadro
+ * @license MIT
+ * @version 0.1
+ */
+
 var testCards =
 "4 Lion's Eye Diamond\n" +
 "4 Sol Ring\n" +
@@ -81,7 +87,8 @@ function drawDeckList(parent, decklist) {
     // Gather all the mana symbols for each card in the decklist.
     var manaSymbols = [];
     decklist.forEach(function(d, i) {
-      var items = d.cost.split("}")
+      if (d.cost !== undefined) {
+        var items = d.cost.split("}")
                         // remove beginning bracket "{"
                         .map(function(string) { 
                           return string.slice(1) 
@@ -112,37 +119,105 @@ function drawDeckList(parent, decklist) {
                           return string;
                         });
 
-      manaSymbols.push(items);
+        manaSymbols.push(items);       
+      }
     });
 
     var spans = li.append("span")
         .attr("class", "pull-right");
 
-    // Add an image for each mana symbol on each card.
-    spans.selectAll("i")
-      .data(function(d, i) { return manaSymbols[i]; })
-      .enter().append("i")
-      .attr("class", function(d) {
-        return "mtg " + convertManaSymbolToClass(d);
-      })
-      .style("font-size", "16px");
+    if (manaSymbols.length > 0) {
+      // Add an image for each mana symbol on each card.
+      spans.selectAll("i")
+        .data(function(d, i) { return manaSymbols[i]; })
+        .enter().append("i")
+        .attr("class", function(d) {
+          return "mtg " + convertManaSymbolToClass(d);
+        })
+        .style("font-size", "16px");     
+    }
 }
 
-function updateUI(deckliststring) {
+function renderDropdown(parent, decks) {
+    d3.select(parent)
+      .selectAll("option")
+      .data(decks)
+      .enter().append("option")
+      .html(function(d) { return d.name; });
+}
+
+var db = new Database("Decks", "name");
+
+/**
+ * Given a string containing the count and card names of all the cards in 
+ * the deck it will return back the JSON card data from: https://deckbrew.com/api/
+ * The json card data adheres to the form defined from: http://mtgjson.com/
+ *
+ * @param {string} deckname       - The name of the deck which is used as
+ *                                  a unique identifier into the database.
+ * @param {string} deckliststring - Newline separated list of all the cards
+ *                                  in the deck.
+ */
+function fetchCards(deckname, deckliststring, callback) {
+  getJSONCardData(deckliststring, callback);  
+}
+
+/**
+ * Renders all the UI elements with the given card
+ * data.
+ *
+ * @param {array} jsonDeck - An array containing a json object
+ *                           for each card in the deck.
+ */
+function renderUI(jsonDeck) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
+  document.getElementById("deckDatabase").innerHTML = "";
 
-  getJSONCardData(deckliststring, function(jsonDeck) {
-    // populate with initial data.
-    drawDecklist("#visualdecklist", jsonDeck);
-    drawDeckList("#decklist", jsonDeck);
-  });
+  drawDecklist("#visualdecklist", jsonDeck);
+  drawDeckList("#decklist", jsonDeck);
+  renderDropdown("#deckDatabase", db.query());
 }
 
-updateUI(testCards);
+fetchCards("Test CC Deck", testCards, function(jsonDeck) {
+  renderUI(jsonDeck);
+});
 
-var btn  = document.getElementById("build");
+var btn = document.getElementById("build"),
+    decknameTxt = document.getElementById("deckname"),
+    clearDecksBtn = document.getElementById("clearDecks"),
+    deckSelect = document.getElementById("deckDatabase");
+
+deckSelect.addEventListener("change", function(event) {
+  var decks = db.query(),
+      deckname = this.value;
+  var filtered = decks.filter(function(obj) {
+    return obj.name === deckname;
+  });
+  console.log(deckname);
+  if (filtered.length > 0) {
+    renderUI(filtered[0].cards);    
+  }
+});
+
+clearDecksBtn.addEventListener("click", function(event) {
+  event.preventDefault();
+  db.clear();
+
+  // @todo Update the whole UI.
+  //renderUI();
+});
+
 btn.addEventListener("click", function(event) {
   event.preventDefault();
-  updateUI(document.getElementById("deck").value);
+  var deckname = decknameTxt.value || "Temp Name";
+  fetchCards(deckname, document.getElementById("deck").value, function(jsonDeck) {
+    // @todo If the deck already exists update it.
+    var i = db.insert({
+      name: deckname,
+      cards: jsonDeck
+    });
+
+    renderUI(jsonDeck);
+  });
 });
