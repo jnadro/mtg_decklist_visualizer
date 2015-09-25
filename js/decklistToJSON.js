@@ -1,3 +1,11 @@
+/**
+ * @author Jason Nadro
+ * @license MIT
+ * @version 0.1
+ */
+
+'use strict';
+
 // Takes a name with characters that aren't URL friendly and replaces them with
 // see http://www.w3schools.com/tags/ref_urlencode.asp 
 // Replaces spaces with %20
@@ -31,7 +39,7 @@ function decklistToJSON(decklistString, callback) {
   var lines = decklistString.split("\n");
   // lines that begin with any number of digits, followed by spaced, followed by any number of non digit characters
   // including apostrophe's and comma's.
-  var re = /^(\d*)\s([\D']*)/;
+  var re = /^(\d*)\s([\D']*)/,
       decklistJSON = [];
 
   lines.map(function(line) {

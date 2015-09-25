@@ -3,6 +3,8 @@
  * @license MIT
  * @version 0.1
  */
+ 
+'use strict';
 
 var testCards =
 "4 Lion's Eye Diamond\n" +

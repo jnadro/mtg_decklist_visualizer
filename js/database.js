@@ -6,6 +6,8 @@
  * @version 0.1
  */
 
+ 'use strict';
+
 /**
  * Database is a collection (array) of json objects.
  *
