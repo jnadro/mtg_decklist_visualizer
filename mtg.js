@@ -185,7 +185,20 @@ fetchCards("Test CC Deck", testCards, function(jsonDeck) {
 
 var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
-    clearDecksBtn = document.getElementById("clearDecks");
+    clearDecksBtn = document.getElementById("clearDecks"),
+    deckSelect = document.getElementById("deckDatabase");
+
+deckSelect.addEventListener("click", function(event) {
+  var decks = db.query(),
+      deckname = this.value;
+  var filtered = decks.filter(function(obj) {
+    return obj.name === deckname;
+  });
+  console.log(deckname);
+  if (filtered.length > 0) {
+    renderUI(filtered[0].cards);    
+  }
+});
 
 clearDecksBtn.addEventListener("click", function(event) {
   event.preventDefault();
