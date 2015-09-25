@@ -72,14 +72,17 @@ function requestCardData(cards, callback) {
           });
 
           mergeObject(cardJSON[0], card);
+        }
+        else {
+          console.log("Could not find " + card.name + " in the database.");
+        }
 
-          // place the card into the appropiate spot in the array
-          // to preserve ordering.
-          cardData[index] = card;
-          
-          if (--limit === 0) {
-            callback(cardData);
-          }
+        // place the card into the appropiate spot in the array
+        // to preserve ordering.
+        cardData[index] = card;
+
+        if (--limit === 0) {
+          callback(cardData);
         }
       }
 

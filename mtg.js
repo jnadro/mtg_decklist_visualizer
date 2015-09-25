@@ -87,7 +87,8 @@ function drawDeckList(parent, decklist) {
     // Gather all the mana symbols for each card in the decklist.
     var manaSymbols = [];
     decklist.forEach(function(d, i) {
-      var items = d.cost.split("}")
+      if (d.cost !== undefined) {
+        var items = d.cost.split("}")
                         // remove beginning bracket "{"
                         .map(function(string) { 
                           return string.slice(1) 
@@ -118,20 +119,23 @@ function drawDeckList(parent, decklist) {
                           return string;
                         });
 
-      manaSymbols.push(items);
+        manaSymbols.push(items);       
+      }
     });
 
     var spans = li.append("span")
         .attr("class", "pull-right");
 
-    // Add an image for each mana symbol on each card.
-    spans.selectAll("i")
-      .data(function(d, i) { return manaSymbols[i]; })
-      .enter().append("i")
-      .attr("class", function(d) {
-        return "mtg " + convertManaSymbolToClass(d);
-      })
-      .style("font-size", "16px");
+    if (manaSymbols.length > 0) {
+      // Add an image for each mana symbol on each card.
+      spans.selectAll("i")
+        .data(function(d, i) { return manaSymbols[i]; })
+        .enter().append("i")
+        .attr("class", function(d) {
+          return "mtg " + convertManaSymbolToClass(d);
+        })
+        .style("font-size", "16px");     
+    }
 }
 
 function renderDropdown(parent, decks) {
@@ -176,12 +180,20 @@ function renderUI(jsonDeck) {
 }
 
 fetchCards("Test CC Deck", testCards, function(jsonDeck) {
-  console.log(jsonDeck);
   renderUI(jsonDeck);
 });
 
 var btn = document.getElementById("build"),
-    decknameTxt = document.getElementById("deckname");
+    decknameTxt = document.getElementById("deckname"),
+    clearDecksBtn = document.getElementById("clearDecks");
+
+clearDecksBtn.addEventListener("click", function(event) {
+  event.preventDefault();
+  db.clear();
+
+  // @todo Update the whole UI.
+  //renderUI();
+});
 
 btn.addEventListener("click", function(event) {
   event.preventDefault();
