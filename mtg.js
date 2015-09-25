@@ -188,7 +188,7 @@ var btn = document.getElementById("build"),
     clearDecksBtn = document.getElementById("clearDecks"),
     deckSelect = document.getElementById("deckDatabase");
 
-deckSelect.addEventListener("click", function(event) {
+deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
       deckname = this.value;
   var filtered = decks.filter(function(obj) {
