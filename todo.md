@@ -11,7 +11,7 @@
 8. should make query accept a function that can be used to filter items.
 9. make query and find the same function.
 ~~ 10. refactor and separate deck retrival and updating the UI. ~~
-11. selection from the dropdown updates the UI.
+~~ 11. selection from the dropdown updates the UI. ~~
 ~~ 12. Fix bug where bad names where getting stored in the database. ~~
 ~~ 13. Add button to clear the deck database. ~~
 14. Curate a database from decks on http://www.classicdojo.org/
@@ -23,4 +23,4 @@ X == 25 minutes of uninterrupted work.
 
 ##### Local Storage
 XXXXX
-XXXX
+XXXXX
