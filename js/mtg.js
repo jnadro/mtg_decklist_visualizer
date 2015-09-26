@@ -3,7 +3,7 @@
  * @license MIT
  * @version 0.1
  */
- 
+
 'use strict';
 
 var testCards =
@@ -40,8 +40,6 @@ var testCards =
 "4 Gut Shot\n" +
 "4 Vault Skirge\n" +
 "4 Birthing Pod";
-
-document.getElementById("deck").setAttribute("placeholder", testCards);
 
 function drawDecklist(parent, decklist) {
   d3.select(parent)
@@ -140,14 +138,18 @@ function drawDeckList(parent, decklist) {
     }
 }
 
-function renderDropdown(parent, decks) {
+function renderDropdown(parent, decks, selectedIdx) {
     d3.select(parent)
       .selectAll("option")
       .data(decks)
       .enter().append("option")
-      .html(function(d) { return d.name; });
+      .html(function(d) { return d.name; })
+      .attr("selected", function(d, i) {
+        return i !== selectedIdx ? null : "";
+      });
 }
 
+document.getElementById("deck").setAttribute("placeholder", testCards);
 var db = new Database("Decks", "name");
 
 /**
@@ -171,24 +173,26 @@ function fetchCards(deckname, deckliststring, callback) {
  * @param {array} jsonDeck - An array containing a json object
  *                           for each card in the deck.
  */
-function renderUI(jsonDeck) {
+function renderUI(jsonDeck, selectedIdx) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
 
   drawDecklist("#visualdecklist", jsonDeck);
   drawDeckList("#decklist", jsonDeck);
-  renderDropdown("#deckDatabase", db.query());
+  renderDropdown("#deckDatabase", db.query(), selectedIdx);
 }
-
-fetchCards("Test CC Deck", testCards, function(jsonDeck) {
-  renderUI(jsonDeck);
-});
 
 var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
     clearDecksBtn = document.getElementById("clearDecks"),
     deckSelect = document.getElementById("deckDatabase");
+
+var initialDeck = [];
+if (db.length() > 0) {
+  initialDeck = db.query()[0];
+}
+renderUI(initialDeck.cards, 0);
 
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
@@ -196,7 +200,6 @@ deckSelect.addEventListener("change", function(event) {
   var filtered = decks.filter(function(obj) {
     return obj.name === deckname;
   });
-  console.log(deckname);
   if (filtered.length > 0) {
     renderUI(filtered[0].cards);    
   }
