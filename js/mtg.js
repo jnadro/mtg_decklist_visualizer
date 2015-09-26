@@ -197,11 +197,13 @@ renderUI(initialDeck.cards, 0);
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
       deckname = this.value;
-  var filtered = decks.filter(function(obj) {
-    return obj.name === deckname;
-  });
-  if (filtered.length > 0) {
-    renderUI(filtered[0].cards);    
+  if (decks.length > 0) {
+    for (var deckIdx = 0; deckIdx < decks.length; deckIdx++) {
+      if (deckname === decks[deckIdx].name) {
+        renderUI(decks[deckIdx].cards, deckIdx);     
+        break;
+      }
+    }
   }
 });
 
