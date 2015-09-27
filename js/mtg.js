@@ -152,6 +152,14 @@ function renderDropdown(parent, decks, selectedIdx) {
 document.getElementById("deck").setAttribute("placeholder", testCards);
 var db = new Database("Decks", "name");
 
+var data = [4, 14, 21, 8, 2, 8, 0, 0];
+
+var manaCurve = manaCurveChart();
+
+d3.select("#manaCurve")
+      .datum(data)
+      .call(manaCurve);
+
 /**
  * Given a string containing the count and card names of all the cards in 
  * the deck it will return back the JSON card data from: https://deckbrew.com/api/

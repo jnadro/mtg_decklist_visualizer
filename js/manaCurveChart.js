@@ -18,7 +18,7 @@ function manaCurveChart() {
   function chart(selection) {
     selection.each(function(data) {
 
-      var svg = d3.select("body").append("svg")
+      var svg = d3.select(this).append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
         .append("g")
