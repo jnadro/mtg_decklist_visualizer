@@ -195,6 +195,13 @@ function fetchCards(deckname, deckliststring, callback) {
   getJSONCardData(deckliststring, callback);  
 }
 
+function clearUI() {
+  document.getElementById("visualdecklist").innerHTML  = "";
+  document.getElementById("decklist").innerHTML = "";
+  document.getElementById("deckDatabase").innerHTML = "";
+  document.getElementById("manaCurve").innerHTML = "";
+}
+
 /**
  * Renders all the UI elements with the given card
  * data.
@@ -203,10 +210,7 @@ function fetchCards(deckname, deckliststring, callback) {
  *                           for each card in the deck.
  */
 function renderUI(jsonDeck, selectedIdx) {
-  document.getElementById("visualdecklist").innerHTML  = "";
-  document.getElementById("decklist").innerHTML = "";
-  document.getElementById("deckDatabase").innerHTML = "";
-  document.getElementById("manaCurve").innerHTML = "";
+  clearUI();
 
   drawDecklist("#visualdecklist", jsonDeck);
   drawDeckList("#decklist", jsonDeck);
@@ -223,11 +227,11 @@ var btn = document.getElementById("build"),
     clearDecksBtn = document.getElementById("clearDecks"),
     deckSelect = document.getElementById("deckDatabase");
 
-var initialDeck = [];
+var initialDeck = undefined;
 if (db.length() > 0) {
   initialDeck = db.query()[0];
 }
-if (initialDeck.length > 0) {
+if (initialDeck !== undefined) {
   renderUI(initialDeck.cards, 0);
 }
 
@@ -248,18 +252,19 @@ clearDecksBtn.addEventListener("click", function(event) {
   event.preventDefault();
   db.clear();
 
-  // @todo Update the whole UI.
-  //renderUI();
+  clearUI();
 });
 
 btn.addEventListener("click", function(event) {
   event.preventDefault();
-  var deckname = decknameTxt.value || "Temp Name";
-  fetchCards(deckname, document.getElementById("deck").value, function(jsonDeck) {
+  var deckname = decknameTxt.value || "Temp Name",
+      deckString = document.getElementById("deck").value;
+  fetchCards(deckname, deckString, function(jsonDeck) {
     // @todo If the deck already exists update it.
     var i = db.insert({
       name: deckname,
-      cards: jsonDeck
+      cards: jsonDeck,
+      deckString: deckString
     });
 
     renderUI(jsonDeck);
