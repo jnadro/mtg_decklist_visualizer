@@ -227,7 +227,9 @@ var initialDeck = [];
 if (db.length() > 0) {
   initialDeck = db.query()[0];
 }
-renderUI(initialDeck.cards, 0);
+if (initialDeck.length > 0) {
+  renderUI(initialDeck.cards, 0);
+}
 
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
