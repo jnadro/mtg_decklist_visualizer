@@ -200,6 +200,8 @@ function clearUI() {
   document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
   document.getElementById("manaCurve").innerHTML = "";
+  document.getElementById("deck").value = "";
+  document.getElementById("deckname").value = "";
 }
 
 /**
@@ -209,7 +211,7 @@ function clearUI() {
  * @param {array} jsonDeck - An array containing a json object
  *                           for each card in the deck.
  */
-function renderUI(jsonDeck, selectedIdx) {
+function renderUI(jsonDeck, selectedIdx, deckString) {
   clearUI();
 
   drawDecklist("#visualdecklist", jsonDeck);
@@ -232,7 +234,7 @@ if (db.length() > 0) {
   initialDeck = db.query()[0];
 }
 if (initialDeck !== undefined) {
-  renderUI(initialDeck.cards, 0);
+  renderUI(initialDeck.cards, 0, initialDeck.deckString);
 }
 
 deckSelect.addEventListener("change", function(event) {
@@ -241,7 +243,7 @@ deckSelect.addEventListener("change", function(event) {
   if (decks.length > 0) {
     for (var deckIdx = 0; deckIdx < decks.length; deckIdx++) {
       if (deckname === decks[deckIdx].name) {
-        renderUI(decks[deckIdx].cards, deckIdx);     
+        renderUI(decks[deckIdx].cards, deckIdx, decks[deckIdx].deckString);     
         break;
       }
     }
@@ -267,6 +269,6 @@ btn.addEventListener("click", function(event) {
       deckString: deckString
     });
 
-    renderUI(jsonDeck);
+    renderUI(jsonDeck, i, deckString);
   });
 });
