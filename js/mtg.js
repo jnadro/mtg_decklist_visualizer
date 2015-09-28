@@ -200,8 +200,8 @@ function clearUI() {
   document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
   document.getElementById("manaCurve").innerHTML = "";
-  document.getElementById("deck").value = "";
   document.getElementById("deckname").value = "";
+  document.getElementById("deck").value = "";
 }
 
 /**
@@ -211,17 +211,20 @@ function clearUI() {
  * @param {array} jsonDeck - An array containing a json object
  *                           for each card in the deck.
  */
-function renderUI(jsonDeck, selectedIdx, deckString) {
+function renderUI(jsonDeck, selectedIdx) {
   clearUI();
 
-  drawDecklist("#visualdecklist", jsonDeck);
-  drawDeckList("#decklist", jsonDeck);
+  drawDecklist("#visualdecklist", jsonDeck.cards);
+  drawDeckList("#decklist", jsonDeck.cards);
   renderDropdown("#deckDatabase", db.query(), selectedIdx);
 
-  var manaCurveData = calculateManaCurve(jsonDeck);
+  var manaCurveData = calculateManaCurve(jsonDeck.cards);
   d3.select("#manaCurve")
       .datum(manaCurveData)
       .call(manaCurve);
+
+  document.getElementById("deckname").value = jsonDeck.name;
+  document.getElementById("deck").value = jsonDeck.deckString;
 }
 
 var btn = document.getElementById("build"),
@@ -234,7 +237,7 @@ if (db.length() > 0) {
   initialDeck = db.query()[0];
 }
 if (initialDeck !== undefined) {
-  renderUI(initialDeck.cards, 0, initialDeck.deckString);
+  renderUI(initialDeck, 0);
 }
 
 deckSelect.addEventListener("change", function(event) {
@@ -243,7 +246,7 @@ deckSelect.addEventListener("change", function(event) {
   if (decks.length > 0) {
     for (var deckIdx = 0; deckIdx < decks.length; deckIdx++) {
       if (deckname === decks[deckIdx].name) {
-        renderUI(decks[deckIdx].cards, deckIdx, decks[deckIdx].deckString);     
+        renderUI(decks[deckIdx], deckIdx);     
         break;
       }
     }
@@ -262,13 +265,15 @@ btn.addEventListener("click", function(event) {
   var deckname = decknameTxt.value || "Temp Name",
       deckString = document.getElementById("deck").value;
   fetchCards(deckname, deckString, function(jsonDeck) {
-    // @todo If the deck already exists update it.
-    var i = db.insert({
+    var deck = {
       name: deckname,
       cards: jsonDeck,
       deckString: deckString
-    });
+    };
 
-    renderUI(jsonDeck, i, deckString);
+    // @todo If the deck already exists update it.
+    var i = db.insert(deck);
+
+    renderUI(deck, i);
   });
 });
