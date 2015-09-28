@@ -264,6 +264,13 @@ btn.addEventListener("click", function(event) {
   event.preventDefault();
   var deckname = decknameTxt.value || "Temp Name",
       deckString = document.getElementById("deck").value;
+
+  // @todo Handle deck updating.
+  // 1. check to see if the deck exists
+  //    and if it does update the database with
+  //    the new deck.
+
+  // 2. else fetch the cards
   fetchCards(deckname, deckString, function(jsonDeck) {
     var deck = {
       name: deckname,
