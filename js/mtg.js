@@ -149,16 +149,37 @@ function renderDropdown(parent, decks, selectedIdx) {
       });
 }
 
+/**
+ * Given an array containing all the cards in the deck this
+ * will return an array containing the count of the Casting Cost
+ * of each card in the deck.
+ *
+ * @param {array} jsonDeck - An array containing a json object
+ *                           for each card in the deck.
+ * @return {array} manaCurve - Contains a number which is the count for
+ *                             each CC.
+ */
+function calculateManaCurve(jsonDeck) {
+  // Hold the count for the CC from 0-7+
+  var manaCurve = [0, 0, 0, 0, 0, 0, 0, 0];
+  jsonDeck.forEach(function(d, i) {
+    // Don't count lands (they would have cmc of 0)
+    if (d.types[0] !== "land" && 
+        d.cmc !== undefined && 
+        d.cmc >= 0) {
+      // The last slot in the mana curve counts 
+      // cmc >= 7 so anything greater than 7 should
+      // just be clamped.
+      var i = Math.min(d.cmc, 7);
+      manaCurve[i] += (d.count);
+    }
+  });
+  return manaCurve;
+}
+
 document.getElementById("deck").setAttribute("placeholder", testCards);
-var db = new Database("Decks", "name");
-
-var data = [4, 14, 21, 8, 2, 8, 0, 0];
-
-var manaCurve = manaCurveChart();
-
-d3.select("#manaCurve")
-      .datum(data)
-      .call(manaCurve);
+var db = new Database("Decks", "name"),
+    manaCurve = manaCurveChart();
 
 /**
  * Given a string containing the count and card names of all the cards in 
@@ -185,10 +206,16 @@ function renderUI(jsonDeck, selectedIdx) {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
+  document.getElementById("manaCurve").innerHTML = "";
 
   drawDecklist("#visualdecklist", jsonDeck);
   drawDeckList("#decklist", jsonDeck);
   renderDropdown("#deckDatabase", db.query(), selectedIdx);
+
+  var manaCurveData = calculateManaCurve(jsonDeck);
+  d3.select("#manaCurve")
+      .datum(manaCurveData)
+      .call(manaCurve);
 }
 
 var btn = document.getElementById("build"),
