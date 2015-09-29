@@ -177,6 +177,16 @@ function calculateManaCurve(jsonDeck) {
   return manaCurve;
 }
 
+/**
+ * Returns the index of the selected deck.  Used to look up
+ * in the database for the actual deck list.
+ *
+ * @return {number} index - The value
+ */
+function getSelectedDeckIndex() {
+  return document.getElementById("deckDatabase").selectedIndex;
+}
+
 document.getElementById("deck").setAttribute("placeholder", testCards);
 var db = new Database("Decks", "name"),
     manaCurve = manaCurveChart();
@@ -269,6 +279,11 @@ btn.addEventListener("click", function(event) {
   // 1. check to see if the deck exists
   //    and if it does update the database with
   //    the new deck.
+  var selectedIndex = getSelectedDeckIndex(),
+      bNeedsUpdate = false;
+  if (db.length() > 0 && selectedIndex < db.length()) {
+    bNeedsUpdate = true;
+  }
 
   // 2. else fetch the cards
   fetchCards(deckname, deckString, function(jsonDeck) {
@@ -278,9 +293,14 @@ btn.addEventListener("click", function(event) {
       deckString: deckString
     };
 
-    // @todo If the deck already exists update it.
-    var i = db.insert(deck);
+    if (bNeedsUpdate) {
+      db.update(selectedIndex, deck);
+      renderUI(deck, selectedIndex);
+    }
+    else {
+      var i = db.insert(deck);
+      renderUI(deck, i);
+    }
 
-    renderUI(deck, i);
   });
 });

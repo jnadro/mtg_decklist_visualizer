@@ -87,11 +87,25 @@ Database.prototype.find = function(i) {
  * Implements the U in CRUD by updating the item in the
  * collection and saving the collection to localStorage.
  *
+ * Becasuse I am lazy the update just wholesale replaces
+ * the existing object with the one passed in.
+ *
  * @this {Database}
  * @param {number} i - Index to update in the array.
+ * @param {object} value - the data to update.
  */
-Database.prototype.update = function(i) {
-
+Database.prototype.update = function(i, value) {
+  // if this is a valid index.
+  if (i >= 0 && i < this.data.length) {    
+    var obj = this.find(i);
+    // if we found the object and they are the same
+    // object (they have a unique ID and they match.)
+    if (obj[this.uniqueId] === value[this.uniqueId] 
+        && value[this.uniqueId !== undefined]) {
+      this.data[i] = value;
+      this.storage.setItem(this.name, JSON.stringify(this.data));
+    }
+  }
 };
 
 /**
