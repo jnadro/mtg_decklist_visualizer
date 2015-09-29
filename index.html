@@ -33,6 +33,14 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <span id="cardEntrySpan">
+            <h4>Deck Database</h4>
+            <form class="form-inline">
+              <select id="deckDatabase" class="form-control"></select>
+              <button id="clearDecks" type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>
+            </form>
+
             <h4 class="sub-header">Card Entry</h2>
             <input id="deckname" type="text" class="form-control" placeholder="Deckname">
             <textarea id="deck" class="form-control" rows="25" spellcheck="false"></textarea>
@@ -51,14 +59,6 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Deck Database</h4>
-              <form class="form-inline">
-                <button id="clearDecks" type="button" class="btn btn-default" aria-label="Left Align">
-                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </button>
-                <select id="deckDatabase" class="form-control">
-                </select>
-              </form>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
               <h4>Mana Curve</h4>
