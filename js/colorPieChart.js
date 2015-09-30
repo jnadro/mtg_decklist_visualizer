@@ -17,7 +17,7 @@ function colorPieChart() {
 
       var pie = d3.layout.pie()
           .sort(null)
-          .value(function(d) { return d.population; });
+          .value(function(d) { console.log(d); return d; });
 
       var svg = d3.select(this).append("svg")
           .attr("width", width)
@@ -25,17 +25,7 @@ function colorPieChart() {
         .append("g")
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-      var data = [
-        { color: "Black", population: 25 },
-        { color: "Blue", population: 10 },
-        { color: "Green", population: 5 },
-        { color: "Red", population: 2 },
-        { color: "White", population: 1 },
-      ];
-
-      data.forEach(function(d) {
-        d.population = +d.population;
-      });
+      var data = [25, 10, 5, 2, 1];
 
       var g = svg.selectAll(".arc")
       .data(pie(data))
@@ -44,13 +34,13 @@ function colorPieChart() {
 
       g.append("path")
         .attr("d", arc)
-        .style("fill", function(d, i) { return color(d.data.color); });
+        .style("fill", function(d, i) { return color(i); });
 
       g.append("text")
         .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
         .attr("dy", ".35em")
         .style("text-anchor", "middle")
-        .text(function(d) { return d.data.population; });
+        .text(function(d) { console.log(d); return d.data; });
     });
   }
 
