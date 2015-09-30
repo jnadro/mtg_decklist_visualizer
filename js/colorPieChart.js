@@ -17,7 +17,7 @@ function colorPieChart() {
 
       var pie = d3.layout.pie()
           .sort(null)
-          .value(function(d) { console.log(d); return d; });
+          .value(function(d) { return d; });
 
       var svg = d3.select(this).append("svg")
           .attr("width", width)
@@ -40,7 +40,7 @@ function colorPieChart() {
         .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
         .attr("dy", ".35em")
         .style("text-anchor", "middle")
-        .text(function(d) { console.log(d); return d.data; });
+        .text(function(d) { return d.data; });
     });
   }
 
