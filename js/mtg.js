@@ -41,6 +41,44 @@ var testCards =
 "4 Vault Skirge\n" +
 "4 Birthing Pod";
 
+/**
+ * JSON card format can be found here: http://mtgjson.com/#exampleCard
+ *
+ *   {
+ *              "name" : "Sen Triplets",
+ *
+ *          "manaCost" : "{2}{W}{U}{B}",
+ *               "cmc" : 5,
+ *            "colors" : ["White", "Blue", "Black"],
+ *
+ *              "type" : "Legendary Artifact Creature — Human Wizard",
+ *        "supertypes" : ["Legendary"],
+ *             "types" : ["Artifact", "Creature"],
+ *          "subtypes" : ["Human", "Wizard"],
+ *
+ *            "rarity" : "Mythic Rare",
+ *
+ *              "text" : "At the beginning of your upkeep, choose target opponent.
+ *                        This turn, that player can't cast spells or activate
+ *                        abilities and plays with his or her hand revealed.
+ *                        You may play cards from that player's hand this turn.",
+ *
+ *            "flavor" : "They are the masters of your mind.",
+ *
+ *            "artist" : "Greg Staples",
+ *            "number" : "109",
+ *
+ *             "power" : "3",
+ *         "toughness" : "3",
+ *
+ *            "layout" : "normal",
+ *      "multiverseid" : 180607,
+ *         "imageName" : "sen triplets",
+ *                "id" : "3129aee7f26a4282ce131db7d417b1bc3338c4d4"
+ *   }
+ *
+ */
+
 function drawDecklist(parent, decklist) {
   d3.select(parent)
     .selectAll("div")
@@ -178,6 +216,47 @@ function calculateManaCurve(jsonDeck) {
 }
 
 /**
+ * Given an array containing all the cards in the deck this
+ * will return an array containing the number of cards in each
+ * color.
+ *
+ * @param {array} jsonDeck - An array containing a json object
+ *                           for each card in the deck.
+ * @return {array} colorCounts - Contains a number which is the count for
+ *                             each color.
+ */
+ function countCardColors(jsonDeck) {
+  // Artifact, Black, Blue, Green, Red, White
+  // What to do for gold cards?
+  var data = {
+    "colorless": 0, 
+    "black":    0,
+    "blue":     0,
+    "green":    0,
+    "red":      0,
+    "white":    0
+  };
+
+  // @todo Handle gold cards
+  // @todo This function should probably count mana symbols
+  // instead.
+  jsonDeck.forEach(function(d, i) {
+    var bLand = d.types[0] === "land";
+    if (!bLand && d.colors === undefined) {
+      // this is a colorless card
+      data["colorPieChart"] += d.count;
+    } else if (!bLand && d.colors !== undefined) {
+      // for now only consider the first color of the card.
+      data[d.colors[0].toLowerCase()] += d.count;
+    }
+  });
+
+  return ["colorless", "black", "blue", "green", "red", "white"].map(function(d, i) {
+    return { color: d, count: data[d] };
+  });
+ }
+
+/**
  * Returns the index of the selected deck.  Used to look up
  * in the database for the actual deck list.
  *
@@ -235,13 +314,7 @@ function renderUI(jsonDeck, selectedIdx) {
       .datum(manaCurveData)
       .call(manaCurve);
 
-  var colorData = [
-    { color: "Black", population: 25 },
-    { color: "Blue", population: 10 },
-    { color: "Green", population: 5 },
-    { color: "Red", population: 2 },
-    { color: "White", population: 1 },
-  ];
+  var colorData = countCardColors(jsonDeck.cards);
   d3.select("#colorPieChart")
       .datum(colorData)
       .call(colorPie);
