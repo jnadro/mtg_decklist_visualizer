@@ -3,7 +3,7 @@ function colorPieChart() {
       height = 187,
       radius = Math.min(width, height) / 2;
 
-  var magicColors = ["#bab1ab", "#c1d7e9", "#a3c095", "#e49977", "#f8f6d8"];
+  var magicColors = ["#c9c4be", "#bab1ab", "#c1d7e9", "#a3c095", "#e49977", "#f8f6d8"];
 
   var color = d3.scale.ordinal()
       .range(magicColors);
@@ -25,7 +25,7 @@ function colorPieChart() {
         .append("g")
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-      var data = [25, 10, 5, 2, 1];
+      var data = [3, 25, 10, 5, 2, 1];
 
       var g = svg.selectAll(".arc")
       .data(pie(data))
