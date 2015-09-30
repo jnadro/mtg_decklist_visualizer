@@ -12,6 +12,10 @@
   margin-top: 20px;
 }
 
+.arc path {
+  stroke: #fff;
+}
+
 .badge {
   font-size: 11px;
   padding: 1.5px 5px;
