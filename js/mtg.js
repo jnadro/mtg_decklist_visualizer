@@ -368,7 +368,9 @@ btn.addEventListener("click", function(event) {
   var selectedIndex = getSelectedDeckIndex(),
       bNeedsUpdate = false;
   if (db.length() > 0 && selectedIndex < db.length()) {
-    bNeedsUpdate = true;
+    if (deckname === db.find(selectedIndex).name) {
+      bNeedsUpdate = true;      
+    }
   }
 
   // 2. else fetch the cards
