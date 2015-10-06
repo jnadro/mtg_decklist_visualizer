@@ -47,7 +47,7 @@ function decklistToJSON(decklistString, callback) {
     if (results != null) {
       var cardname = results[2];
       decklistJSON.push({
-        name: cardname,
+        name: cardname.trim(),
         count: parseInt(results[1]),
         gathererURL: cardImageURL(cardname)
       });
