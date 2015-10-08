@@ -125,6 +125,7 @@ function drawDeckList(parent, decklist) {
     // Gather all the mana symbols for each card in the decklist.
     var manaSymbols = [];
     decklist.forEach(function(d, i) {
+      var items = [];
       if (d.cost !== undefined) {
         var items = d.cost.split("}")
                         // remove beginning bracket "{"
@@ -156,9 +157,9 @@ function drawDeckList(parent, decklist) {
                           }
                           return string;
                         });
-
-        manaSymbols.push(items);       
       }
+
+      manaSymbols.push(items);
     });
 
     var spans = li.append("span")
@@ -202,7 +203,8 @@ function calculateManaCurve(jsonDeck) {
   var manaCurve = [0, 0, 0, 0, 0, 0, 0, 0];
   jsonDeck.forEach(function(d, i) {
     // Don't count lands (they would have cmc of 0)
-    if (d.types[0] !== "land" && 
+    if (d.types !== undefined &&
+        d.types[0] !== "land" && 
         d.cmc !== undefined && 
         d.cmc >= 0) {
       // The last slot in the mana curve counts 
@@ -241,7 +243,7 @@ function calculateManaCurve(jsonDeck) {
   // @todo This function should probably count mana symbols
   // instead.
   jsonDeck.forEach(function(d, i) {
-    var bLand = d.types[0] === "land";
+    var bLand = d.types !== undefined && d.types[0] === "land";
     if (!bLand && d.colors === undefined) {
       // this is a colorless card
       data["colorPieChart"] += d.count;
