@@ -11,6 +11,9 @@ function colorPieChart() {
 
   function chart(selection) {
     selection.each(function(data) {
+      var filteredData = data.filter(function(d) {
+        return d.count > 0;
+      });
 
       var arc = d3.svg.arc()
         .outerRadius(radius - 10)
@@ -27,7 +30,7 @@ function colorPieChart() {
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
       var g = svg.selectAll(".arc")
-      .data(pie(data))
+      .data(pie(filteredData))
       .enter().append("g")
       .attr("class", "arc");
 
