@@ -16,7 +16,7 @@
 ~~ 13. Add button to clear the deck database. ~~
 14. Curate a database from decks on http://www.classicdojo.org/
 15. As the application gets bigger separate and group things into an app object, view, controller, etc.
-16. My color counting code doesn't know how to handle devoid cards from BFZ.
+~~ 16. My color counting code doesn't know how to handle devoid cards from BFZ. ~~ 
 
 ## Legend
 

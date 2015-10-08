@@ -246,7 +246,7 @@ function calculateManaCurve(jsonDeck) {
     var bLand = d.types !== undefined && d.types[0] === "land";
     if (!bLand && d.colors === undefined) {
       // this is a colorless card
-      data["colorPieChart"] += d.count;
+      data["colorless"] += d.count;
     } else if (!bLand && d.colors !== undefined) {
       // for now only consider the first color of the card.
       data[d.colors[0].toLowerCase()] += d.count;
@@ -354,7 +354,6 @@ deckSelect.addEventListener("change", function(event) {
 clearDecksBtn.addEventListener("click", function(event) {
   event.preventDefault();
   db.clear();
-
   clearUI();
 });
 
