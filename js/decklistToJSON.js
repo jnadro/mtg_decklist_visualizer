@@ -85,6 +85,17 @@ function requestCardData(cards, callback) {
           console.log("Could not find " + card.name + " in the database.");
         }
 
+        // remove properties we don't care about to save space.
+        delete card.editions;
+        delete card.url;
+        delete card.store_url;
+        delete card.text;
+        delete card.formats;
+        delete card.id;
+        delete card.power;
+        delete card.toughness;
+        delete card.subtypes;
+
         // place the card into the appropiate spot in the array
         // to preserve ordering.
         cardData[index] = card;
