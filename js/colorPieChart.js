@@ -1,6 +1,6 @@
 function colorPieChart() {
-  var width = 360,
-      height = 187,
+  var width = 150,
+      height = 150,
       radius = Math.min(width, height) / 2;
 
   var color = d3.scale.ordinal()
@@ -17,7 +17,7 @@ function colorPieChart() {
 
       var arc = d3.svg.arc()
         .outerRadius(radius - 10)
-        .innerRadius(radius - 70);
+        .innerRadius(radius - 50);
 
       var pie = d3.layout.pie()
           .sort(null)
@@ -26,6 +26,7 @@ function colorPieChart() {
       var svg = d3.select(this).append("svg")
           .attr("width", width)
           .attr("height", height)
+          .attr("xmlns", "http://www.w3.org/2000/svg")
         .append("g")
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
@@ -41,6 +42,8 @@ function colorPieChart() {
       g.append("text")
         .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
         .attr("dy", ".35em")
+        .style("fill", "black")
+        .style("font", "10px sans-serif")
         .style("text-anchor", "middle")
         .text(function(d) {
           var angle = d.endAngle - d.startAngle;
