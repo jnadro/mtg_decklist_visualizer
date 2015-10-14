@@ -39,19 +39,24 @@ function decklistInfographic() {
       // create canvas and context
       var canvas = d3.select(this).append("canvas")
           .attr("width", canvas_w)
-          .attr("height", canvas_h);
+          .attr("height", canvas_h)
+          .attr("id", "infographic");
       var ctx = canvas.node().getContext("2d");
+
+      // draw the deck name to the canvas
+      ctx.font = "48px sans-serif";
+      ctx.fillText(data.name, 10, 50);
 
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
         svgToImage(manaCurveChartSvg, function() {
-          ctx.drawImage(this, 0, 0);
+          ctx.drawImage(this, 0, 50);
         });
       }
 
       if (colorPieChartSvg !== undefined) {
         svgToImage(colorPieChartSvg, function() {
-          ctx.drawImage(this, 300, 0);
+          ctx.drawImage(this, 300, 50);
         });
       }
       
