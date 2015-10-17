@@ -327,6 +327,11 @@ function renderUI(jsonDeck, selectedIdx) {
       .datum(jsonDeck)
       .call(deckInfographic);
 
+  var canvas = document.getElementById("infographic");
+  var infographicImage = new Image();
+  infographicImage.src = canvas.toDataURL();
+  document.getElementById("visualdecklist").appendChild(infographicImage);
+
   document.getElementById("deckname").value = jsonDeck.name;
   document.getElementById("deck").value = jsonDeck.deckString;
 }

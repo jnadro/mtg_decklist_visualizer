@@ -51,19 +51,25 @@ function manaCurveChart() {
             .attr("y", function(d, i) { return y(d) - padding; })
             .text(function(d) { if (d !== 0) return d; });
   
+      // Create a group to position the axis
+      var axisGroup = svg.append("g")
+                          .attr("transform", "translate(0," + height + ")");
+        
+      // Draw the text below each axis tick
       var xAxisData = [0, 1, 2, 3, 4, 5, 6, 7];
-      var tickOffset = x.rangeBand() / 2;
-      svg.selectAll("text")
+      axisGroup.selectAll("text")
         .data(xAxisData)
       .enter().append("text")
-        .attr("dy", ".71em")
-        .attr("y", 50)
-        .attr("x", 50)
-        .text("5");
-      
-      svg.append("line")
+        .style("fill", "black")
+        .style("font", "10px sans-serif")
+        .style("text-anchor", "middle")
+        .attr("x", function(d, i) { return x(i) + x.rangeBand() / 2; })
+        .attr("dy", "1.0em")
+        .text(function(d) { return d; });
+ 
+      // Draw the horizontal x-axis
+      axisGroup.append("line")
         .attr("x1", 0).attr("x2", width)
-        .attr("y1", height).attr("y2", height)
         .style("fill", "none")
         .style("stroke", "#000")
         .style("shape-rendering", "crispEdges");   

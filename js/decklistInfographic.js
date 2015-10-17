@@ -60,7 +60,7 @@ function decklistInfographic() {
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
         svgToImage(manaCurveChartSvg, function() {
-          ctx.drawImage(this, margin, 50);
+          ctx.drawImage(this, margin, 100);
         });
       }
 
