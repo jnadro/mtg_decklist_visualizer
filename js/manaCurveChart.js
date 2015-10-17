@@ -11,10 +11,6 @@ function manaCurveChart() {
   var y = d3.scale.linear()
       .range([height, 0]);
 
-  var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient("bottom");
-
   function chart(selection) {
     selection.each(function(data) {
 
@@ -54,12 +50,23 @@ function manaCurveChart() {
             .attr("x", function(d, i) { return x.rangeBand() / 2; })
             .attr("y", function(d, i) { return y(d) - padding; })
             .text(function(d) { if (d !== 0) return d; });
-
-      // Append X-Axis
-      svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
+  
+      var xAxisData = [0, 1, 2, 3, 4, 5, 6, 7];
+      var tickOffset = x.rangeBand() / 2;
+      svg.selectAll("text")
+        .data(xAxisData)
+      .enter().append("text")
+        .attr("dy", ".71em")
+        .attr("y", 50)
+        .attr("x", 50)
+        .text("5");
+      
+      svg.append("line")
+        .attr("x1", 0).attr("x2", width)
+        .attr("y1", height).attr("y2", height)
+        .style("fill", "none")
+        .style("stroke", "#000")
+        .style("shape-rendering", "crispEdges");   
     });
   }
 

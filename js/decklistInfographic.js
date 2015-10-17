@@ -1,5 +1,5 @@
 function decklistInfographic() {
-  var margin_top = 200, margin_bottom = 20;
+  var margin_top = 200, margin_bottom = 50;
   var margin = 20,
       card_w = 223, card_h = 311,
       num_cols = 4;
@@ -43,20 +43,30 @@ function decklistInfographic() {
           .attr("id", "infographic");
       var ctx = canvas.node().getContext("2d");
 
+      // fill with white.
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas_w, canvas_h);
+
       // draw the deck name to the canvas
+      ctx.fillStyle = "black";
       ctx.font = "48px sans-serif";
-      ctx.fillText(data.name, 10, 50);
+      ctx.fillText(data.name, margin, 50);
+
+      // draw the legal stuff at the bottom
+      ctx.font = "10px sans-serif";
+      ctx.fillText("Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. © 1995-2015 Wizards.",
+                   5, canvas_h - 5);
 
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
         svgToImage(manaCurveChartSvg, function() {
-          ctx.drawImage(this, 0, 50);
+          ctx.drawImage(this, margin, 50);
         });
       }
 
       if (colorPieChartSvg !== undefined) {
         svgToImage(colorPieChartSvg, function() {
-          ctx.drawImage(this, 300, 50);
+          ctx.drawImage(this, 375, 35);
         });
       }
       
