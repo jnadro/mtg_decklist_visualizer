@@ -1,5 +1,5 @@
 function decklistInfographic() {
-  var margin_top = 200, margin_bottom = 50;
+  var margin_top = 185, margin_bottom = 50;
   var margin = 20,
       card_w = 223, card_h = 311,
       num_cols = 4;

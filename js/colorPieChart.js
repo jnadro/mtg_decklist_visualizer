@@ -43,7 +43,7 @@ function colorPieChart() {
         .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
         .attr("dy", ".35em")
         .style("fill", "black")
-        .style("font", "10px sans-serif")
+        .style("font", "10px Lato")
         .style("text-anchor", "middle")
         .text(function(d) {
           var angle = d.endAngle - d.startAngle;
