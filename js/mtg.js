@@ -328,18 +328,25 @@ function renderUI(jsonDeck, selectedIdx) {
   document.getElementById("deck").value = jsonDeck.deckString;
 }
 
+WebFont.load({
+  google: {
+    families: ["Lato"]
+  },
+  active: function() {
+    var initialDeck = undefined;
+    if (db.length() > 0) {
+      initialDeck = db.query()[0];
+    }
+    if (initialDeck !== undefined) {
+      renderUI(initialDeck, 0);
+    }
+  }
+});
+
 var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
     clearDecksBtn = document.getElementById("clearDecks"),
     deckSelect = document.getElementById("deckDatabase");
-
-var initialDeck = undefined;
-if (db.length() > 0) {
-  initialDeck = db.query()[0];
-}
-if (initialDeck !== undefined) {
-  renderUI(initialDeck, 0);
-}
 
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
