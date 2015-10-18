@@ -44,11 +44,12 @@ function decklistInfographic() {
       var ctx = canvas.node().getContext("2d");
 
       // fill with white.
-      ctx.fillStyle = "#EEEDEC";
+      //ctx.fillStyle = "#EEEDEC";
+      ctx.fillStyle = "rgb(251, 250, 245)";
       ctx.fillRect(0, 0, canvas_w, canvas_h);
 
       // draw the deck name to the canvas
-      ctx.fillStyle = "#c0392b";
+      ctx.fillStyle = "rgb(0, 0, 0)";
       ctx.font = "48px Lato";
       ctx.fillText(data.name, margin, 50);
 
