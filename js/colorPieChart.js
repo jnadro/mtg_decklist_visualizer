@@ -16,8 +16,8 @@ function colorPieChart() {
       });
 
       var arc = d3.svg.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(radius - 50);
+        .outerRadius(radius)
+        .innerRadius(radius - 40);
 
       var pie = d3.layout.pie()
           .sort(null)

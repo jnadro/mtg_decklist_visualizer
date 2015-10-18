@@ -1,7 +1,7 @@
 function manaCurveChart() {
   // defaults.
   var graphWidth = 300, graphHeight = 100;
-      margin = {top: 20, right: 20, bottom: 30, left: 40},
+      margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = graphWidth - margin.left - margin.right,
       height = graphHeight - margin.top - margin.bottom;
 

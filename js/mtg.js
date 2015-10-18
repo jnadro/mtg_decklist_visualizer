@@ -290,7 +290,6 @@ function fetchCards(deckname, deckliststring, callback) {
 
 function clearUI() {
   document.getElementById("visualdecklist").innerHTML  = "";
-  document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
   document.getElementById("manaCurve").innerHTML = "";
   document.getElementById("colorPieChart").innerHTML = "";
