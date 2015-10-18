@@ -48,9 +48,13 @@ function decklistInfographic() {
       ctx.fillStyle = "rgb(251, 250, 245)";
       ctx.fillRect(0, 0, canvas_w, canvas_h);
 
+      // draw a border
+      ctx.strokeStyle = "#ccc";
+      ctx.strokeRect(0, 0, canvas_w, canvas_h);
+
       // draw the deck name to the canvas
       ctx.fillStyle = "rgb(0, 0, 0)";
-      ctx.font = "48px Lato";
+      ctx.font = "bold 48px Lato";
       ctx.fillText(data.name, margin, 50);
 
       // draw the legal stuff at the bottom
@@ -58,6 +62,7 @@ function decklistInfographic() {
       ctx.fillText("Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. © 1995-2015 Wizards.",
                    5, canvas_h - 5);
 
+      
       var paddingTop = 15;
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
@@ -72,6 +77,7 @@ function decklistInfographic() {
         });
       }
       
+
       var imageLoadCount = 0;
       var images = new Array(data.cards.length);
       
