@@ -336,6 +336,7 @@ WebFont.load({
     var initialDeck = undefined;
     if (db.length() > 0) {
       initialDeck = db.query()[0];
+      console.log(initialDeck);
     }
     if (initialDeck !== undefined) {
       renderUI(initialDeck, 0);
