@@ -78,5 +78,13 @@ function manaCurveChart() {
     });
   }
 
+  chart.width = function() {
+    return graphWidth;
+  }
+
+  chart.height = function() {
+    return graphHeight;
+  }
+
   return chart;
 }

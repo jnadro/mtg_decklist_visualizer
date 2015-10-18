@@ -9,7 +9,9 @@ function decklistInfographic() {
   var card_pile_h = card_h + 3 * card_pile_padding_y;
 
   var manaCurveChartSvg = undefined,
-      colorPieChartSvg = undefined;
+      manaCurveX = 0, manaCurveY = 0,
+      colorPieChartSvg = undefined,
+      colorPieX = 0, colorPieY = 0;
 
   function svgToImage(svgHtml, callback) {
     var image = new Image();
@@ -67,17 +69,17 @@ function decklistInfographic() {
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
         svgToImage(manaCurveChartSvg, function() {
-          ctx.drawImage(this, 250, paddingTop);
+          ctx.drawImage(this, canvas_w - colorPieX - manaCurveX - margin * 2, paddingTop);
         });
       }
 
       if (colorPieChartSvg !== undefined) {
         svgToImage(colorPieChartSvg, function() {
-          ctx.drawImage(this, 550, paddingTop);
+          console.log(colorPieX);
+          ctx.drawImage(this, canvas_w - colorPieX - margin, margin);
         });
       }
       
-
       var imageLoadCount = 0;
       var images = new Array(data.cards.length);
       
@@ -104,13 +106,17 @@ function decklistInfographic() {
     });
   }
 
-  chart.manaCurve = function(manaCurveSvg) {
+  chart.manaCurve = function(manaCurveSvg, x, y) {
     manaCurveChartSvg = manaCurveSvg;
+    manaCurveX = x;
+    manaCurveY = y;
     return chart;
   }
 
-  chart.colorPie = function(colorPieSvg) {
+  chart.colorPie = function(colorPieSvg, x, y) {
     colorPieChartSvg = colorPieSvg;
+    colorPieX = x;
+    colorPieY = y;
     return chart;
   }
 

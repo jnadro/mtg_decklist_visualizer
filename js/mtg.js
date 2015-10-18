@@ -317,8 +317,8 @@ function renderUI(jsonDeck, selectedIdx) {
                     .datum(colorData)
                     .call(colorPie);
 
-  deckInfographic.manaCurve(manaCurveDiv.node().innerHTML)
-                 .colorPie(pieChartDiv.node().innerHTML);
+  deckInfographic.manaCurve(manaCurveDiv.node().innerHTML, manaCurve.width(), manaCurve.height())
+                 .colorPie(pieChartDiv.node().innerHTML, colorPie.width(), colorPie.height());
 
   d3.select("#visualdecklist")
       .datum(jsonDeck)

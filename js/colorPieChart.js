@@ -58,5 +58,13 @@ function colorPieChart() {
     });
   }
 
+  chart.width = function() {
+    return width;
+  }
+
+  chart.height = function() {
+    return height;
+  }
+
   return chart;
 }
