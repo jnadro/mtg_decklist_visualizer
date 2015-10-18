@@ -49,6 +49,12 @@ function colorPieChart() {
           var angle = d.endAngle - d.startAngle;
           return percentange(angle / (2.0 * Math.PI)); 
         });
+
+      g.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", radius - 40)
+        .style("fill", "white");
     });
   }
 
