@@ -51,6 +51,12 @@ function manaCurveChart() {
             .attr("x", function(d, i) { return x.rangeBand() / 2; })
             .attr("y", function(d, i) { return y(d) - padding; })
             .text(function(d) { if (d !== 0) return d; });
+
+      svg.append("text")
+          .style("font", font)
+          .attr("x", -20)
+          .attr("y", height + 3)
+          .text("cmc");
   
       // Create a group to position the axis
       var axisGroup = svg.append("g")
