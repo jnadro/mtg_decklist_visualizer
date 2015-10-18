@@ -291,8 +291,6 @@ function fetchCards(deckname, deckliststring, callback) {
 function clearUI() {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("deckDatabase").innerHTML = "";
-  document.getElementById("manaCurve").innerHTML = "";
-  document.getElementById("colorPieChart").innerHTML = "";
   document.getElementById("deckname").value = "";
   document.getElementById("deck").value = "";
 }
@@ -310,17 +308,17 @@ function renderUI(jsonDeck, selectedIdx) {
   renderDropdown("#deckDatabase", db.query(), selectedIdx);
 
   var manaCurveData = calculateManaCurve(jsonDeck.cards);
-  d3.select("#manaCurve")
-      .datum(manaCurveData)
-      .call(manaCurve);
+  var manaCurveDiv = d3.select(document.createElement("div"))
+                      .datum(manaCurveData)
+                      .call(manaCurve);
 
   var colorData = countCardColors(jsonDeck.cards);
-  d3.select("#colorPieChart")
-      .datum(colorData)
-      .call(colorPie);
+  var pieChartDiv = d3.select(document.createElement("div"))
+                    .datum(colorData)
+                    .call(colorPie);
 
-  deckInfographic.manaCurve(d3.select("#manaCurve").node().innerHTML)
-                 .colorPie(d3.select("#colorPieChart").node().innerHTML);
+  deckInfographic.manaCurve(manaCurveDiv.node().innerHTML)
+                 .colorPie(pieChartDiv.node().innerHTML);
 
   d3.select("#visualdecklist")
       .datum(jsonDeck)

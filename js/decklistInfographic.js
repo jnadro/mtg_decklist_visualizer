@@ -67,7 +67,6 @@ function decklistInfographic() {
       }
 
       if (colorPieChartSvg !== undefined) {
-        console.log(colorPieChartSvg);
         svgToImage(colorPieChartSvg, function() {
           ctx.drawImage(this, 550, paddingTop);
         });
