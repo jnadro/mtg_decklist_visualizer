@@ -45,6 +45,11 @@ canvas {
   margin-bottom: 5px;
 }
 
+#deckTweet {
+  resize: none;
+  margin-top: 5px;
+}
+
 #decklistvisual {
   width: 1200px;
   margin: 0 auto;

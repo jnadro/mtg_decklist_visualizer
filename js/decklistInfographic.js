@@ -59,6 +59,11 @@ function decklistInfographic() {
       ctx.font = "bold 48px Lato";
       ctx.fillText(data.name, margin, 50);
 
+      // draw the deck description
+      ctx.fillStyle = "rgb(128, 130, 133)";
+      ctx.font = "18px Lato";
+      ctx.fillText(data.description, margin, 100);
+
       // draw the legal stuff at the bottom
       ctx.font = "10px Lato";
       ctx.fillText("Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. © 1995-2015 Wizards.",
