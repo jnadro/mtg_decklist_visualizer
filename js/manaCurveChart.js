@@ -22,6 +22,7 @@ function manaCurveChart() {
       var svg = d3.select(this).append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
+          .attr("xmlns", "http://www.w3.org/2000/svg")
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -39,7 +40,7 @@ function manaCurveChart() {
 
       // Append the rect for each bar in the bar chart.
       bar.append("rect")
-          .attr("class", "bar")
+          .style("fill", "rgb(41, 128, 185)")
           .attr("width", x.rangeBand())
           .attr("y", function(d) { return y(d); })
           .attr("height", function(d) { return height - y(d); });
@@ -47,6 +48,9 @@ function manaCurveChart() {
       // Append the count above each rectangle in the bar chart.
       var padding = 4;
       bar.append("text")
+            .style("fill", "black")
+            .style("font", "10px sans-serif")
+            .style("text-anchor", "middle")
             .attr("x", function(d, i) { return x.rangeBand() / 2; })
             .attr("y", function(d, i) { return y(d) - padding; })
             .text(function(d) { if (d !== 0) return d; });

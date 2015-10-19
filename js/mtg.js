@@ -271,7 +271,8 @@ function getSelectedDeckIndex() {
 document.getElementById("deck").setAttribute("placeholder", testCards);
 var db = new Database("Decks", "name"),
     manaCurve = manaCurveChart(),
-    colorPie = colorPieChart();
+    colorPie = colorPieChart(),
+    deckInfographic = decklistInfographic();
 
 /**
  * Given a string containing the count and card names of all the cards in 
@@ -307,8 +308,6 @@ function clearUI() {
 function renderUI(jsonDeck, selectedIdx) {
   clearUI();
 
-  drawDecklist("#visualdecklist", jsonDeck.cards);
-  drawDeckList("#decklist", jsonDeck.cards);
   renderDropdown("#deckDatabase", db.query(), selectedIdx);
 
   var manaCurveData = calculateManaCurve(jsonDeck.cards);
@@ -320,6 +319,13 @@ function renderUI(jsonDeck, selectedIdx) {
   d3.select("#colorPieChart")
       .datum(colorData)
       .call(colorPie);
+
+  deckInfographic.manaCurve(d3.select("#manaCurve").node().innerHTML)
+                 .colorPie(d3.select("#colorPieChart").node().innerHTML);
+
+  d3.select("#visualdecklist")
+      .datum(jsonDeck)
+      .call(deckInfographic);
 
   document.getElementById("deckname").value = jsonDeck.name;
   document.getElementById("deck").value = jsonDeck.deckString;
