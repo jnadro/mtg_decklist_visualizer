@@ -1,6 +1,9 @@
+body {
+  font-family: "Lato";
+}
+
 canvas {
   margin: 25px;
-  border: 1px solid #ccc;  
 }
 
 .bs-example {
@@ -40,6 +43,11 @@ canvas {
   resize: none;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+#deckTweet {
+  resize: none;
+  margin-top: 5px;
 }
 
 #decklistvisual {

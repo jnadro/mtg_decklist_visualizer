@@ -16,8 +16,8 @@ function colorPieChart() {
       });
 
       var arc = d3.svg.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(radius - 50);
+        .outerRadius(radius)
+        .innerRadius(radius - 40);
 
       var pie = d3.layout.pie()
           .sort(null)
@@ -43,13 +43,27 @@ function colorPieChart() {
         .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
         .attr("dy", ".35em")
         .style("fill", "black")
-        .style("font", "10px sans-serif")
+        .style("font", "10px Lato")
         .style("text-anchor", "middle")
         .text(function(d) {
           var angle = d.endAngle - d.startAngle;
           return percentange(angle / (2.0 * Math.PI)); 
         });
+
+      g.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", radius - 40)
+        .style("fill", "white");
     });
+  }
+
+  chart.width = function() {
+    return width;
+  }
+
+  chart.height = function() {
+    return height;
   }
 
   return chart;

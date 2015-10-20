@@ -1,5 +1,5 @@
 function decklistInfographic() {
-  var margin_top = 200, margin_bottom = 20;
+  var margin_top = 185, margin_bottom = 50;
   var margin = 20,
       card_w = 223, card_h = 311,
       num_cols = 4;
@@ -9,7 +9,9 @@ function decklistInfographic() {
   var card_pile_h = card_h + 3 * card_pile_padding_y;
 
   var manaCurveChartSvg = undefined,
-      colorPieChartSvg = undefined;
+      manaCurveX = 0, manaCurveY = 0,
+      colorPieChartSvg = undefined,
+      colorPieX = 0, colorPieY = 0;
 
   function svgToImage(svgHtml, callback) {
     var image = new Image();
@@ -39,19 +41,46 @@ function decklistInfographic() {
       // create canvas and context
       var canvas = d3.select(this).append("canvas")
           .attr("width", canvas_w)
-          .attr("height", canvas_h);
+          .attr("height", canvas_h)
+          .attr("id", "infographic");
       var ctx = canvas.node().getContext("2d");
 
+      // fill with white.
+      //ctx.fillStyle = "#EEEDEC";
+      ctx.fillStyle = "rgb(251, 250, 245)";
+      ctx.fillRect(0, 0, canvas_w, canvas_h);
+
+      // draw a border
+      ctx.strokeStyle = "#ccc";
+      ctx.strokeRect(0, 0, canvas_w, canvas_h);
+
+      // draw the deck name to the canvas
+      ctx.fillStyle = "rgb(0, 0, 0)";
+      ctx.font = "bold 48px Lato";
+      ctx.fillText(data.name, margin, 50);
+
+      // draw the deck description
+      ctx.fillStyle = "rgb(128, 130, 133)";
+      ctx.font = "18px Lato";
+      ctx.fillText(data.description, margin, 100);
+
+      // draw the legal stuff at the bottom
+      ctx.font = "10px Lato";
+      ctx.fillText("Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. © 1995-2015 Wizards.",
+                   5, canvas_h - 5);
+
+      
+      var paddingTop = 15;
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
         svgToImage(manaCurveChartSvg, function() {
-          ctx.drawImage(this, 0, 0);
+          ctx.drawImage(this, canvas_w - colorPieX - manaCurveX - margin * 2, paddingTop);
         });
       }
 
       if (colorPieChartSvg !== undefined) {
         svgToImage(colorPieChartSvg, function() {
-          ctx.drawImage(this, 300, 0);
+          ctx.drawImage(this, canvas_w - colorPieX - margin, margin);
         });
       }
       
@@ -81,13 +110,17 @@ function decklistInfographic() {
     });
   }
 
-  chart.manaCurve = function(manaCurveSvg) {
+  chart.manaCurve = function(manaCurveSvg, x, y) {
     manaCurveChartSvg = manaCurveSvg;
+    manaCurveX = x;
+    manaCurveY = y;
     return chart;
   }
 
-  chart.colorPie = function(colorPieSvg) {
+  chart.colorPie = function(colorPieSvg, x, y) {
     colorPieChartSvg = colorPieSvg;
+    colorPieX = x;
+    colorPieY = y;
     return chart;
   }
 

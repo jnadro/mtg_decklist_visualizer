@@ -1,7 +1,7 @@
 function manaCurveChart() {
   // defaults.
-  var graphWidth = 300, graphHeight = 100;
-      margin = {top: 20, right: 20, bottom: 30, left: 40},
+  var graphWidth = 155, graphHeight = 100;
+      margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = graphWidth - margin.left - margin.right,
       height = graphHeight - margin.top - margin.bottom;
 
@@ -10,10 +10,6 @@ function manaCurveChart() {
 
   var y = d3.scale.linear()
       .range([height, 0]);
-
-  var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient("bottom");
 
   function chart(selection) {
     selection.each(function(data) {
@@ -38,29 +34,62 @@ function manaCurveChart() {
         .enter().append("g")
           .attr("transform", function(d, i) { return "translate(" + x(i) + ",0)"; });
 
-      // Append the rect for each bar in the bar chart.
-      bar.append("rect")
-          .style("fill", "rgb(41, 128, 185)")
-          .attr("width", x.rangeBand())
-          .attr("y", function(d) { return y(d); })
-          .attr("height", function(d) { return height - y(d); });
+      bar.append("line")
+          .attr("stroke", "rgb(188, 187, 187)")
+          .attr("x1", x.rangeBand() / 2)
+          .attr("x2", x.rangeBand() / 2)
+          .attr("y1", function(d, i) { return y(d); })
+          .attr("y2", height);
 
       // Append the count above each rectangle in the bar chart.
+      var font = "10px Lato";
       var padding = 4;
       bar.append("text")
             .style("fill", "black")
-            .style("font", "10px sans-serif")
+            .style("font", font)
             .style("text-anchor", "middle")
             .attr("x", function(d, i) { return x.rangeBand() / 2; })
             .attr("y", function(d, i) { return y(d) - padding; })
             .text(function(d) { if (d !== 0) return d; });
 
-      // Append X-Axis
-      svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
+      svg.append("text")
+          .style("font", font)
+          .attr("x", -20)
+          .attr("y", height + 3)
+          .text("cmc");
+  
+      // Create a group to position the axis
+      var axisGroup = svg.append("g")
+                          .attr("transform", "translate(0," + height + ")");
+        
+      // Draw the text below each axis tick
+      var gray = "rgb(188, 187, 187)";
+      var xAxisData = [0, 1, 2, 3, 4, 5, 6, 7];
+      axisGroup.selectAll("text")
+        .data(xAxisData)
+      .enter().append("text")
+        .style("fill", "black")
+        .style("font", font)
+        .style("text-anchor", "middle")
+        .attr("x", function(d, i) { return x(i) + x.rangeBand() / 2; })
+        .attr("dy", "1.0em")
+        .text(function(d) { return d; });
+ 
+      // Draw the horizontal x-axis
+      axisGroup.append("line")
+        .attr("x1", 0).attr("x2", width)
+        .style("fill", "none")
+        .style("stroke", "black")
+        .style("shape-rendering", "crispEdges");   
     });
+  }
+
+  chart.width = function() {
+    return graphWidth;
+  }
+
+  chart.height = function() {
+    return graphHeight;
   }
 
   return chart;

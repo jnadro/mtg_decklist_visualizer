@@ -269,6 +269,7 @@ function getSelectedDeckIndex() {
 }
 
 document.getElementById("deck").setAttribute("placeholder", testCards);
+document.getElementById("deckTweet").setAttribute("placeholder", "144 character deck description");
 var db = new Database("Decks", "name"),
     manaCurve = manaCurveChart(),
     colorPie = colorPieChart(),
@@ -290,10 +291,7 @@ function fetchCards(deckname, deckliststring, callback) {
 
 function clearUI() {
   document.getElementById("visualdecklist").innerHTML  = "";
-  document.getElementById("decklist").innerHTML = "";
   document.getElementById("deckDatabase").innerHTML = "";
-  document.getElementById("manaCurve").innerHTML = "";
-  document.getElementById("colorPieChart").innerHTML = "";
   document.getElementById("deckname").value = "";
   document.getElementById("deck").value = "";
 }
@@ -311,38 +309,46 @@ function renderUI(jsonDeck, selectedIdx) {
   renderDropdown("#deckDatabase", db.query(), selectedIdx);
 
   var manaCurveData = calculateManaCurve(jsonDeck.cards);
-  d3.select("#manaCurve")
-      .datum(manaCurveData)
-      .call(manaCurve);
+  var manaCurveDiv = d3.select(document.createElement("div"))
+                      .datum(manaCurveData)
+                      .call(manaCurve);
 
   var colorData = countCardColors(jsonDeck.cards);
-  d3.select("#colorPieChart")
-      .datum(colorData)
-      .call(colorPie);
+  var pieChartDiv = d3.select(document.createElement("div"))
+                    .datum(colorData)
+                    .call(colorPie);
 
-  deckInfographic.manaCurve(d3.select("#manaCurve").node().innerHTML)
-                 .colorPie(d3.select("#colorPieChart").node().innerHTML);
+  deckInfographic.manaCurve(manaCurveDiv.node().innerHTML, manaCurve.width(), manaCurve.height())
+                 .colorPie(pieChartDiv.node().innerHTML, colorPie.width(), colorPie.height());
 
   d3.select("#visualdecklist")
       .datum(jsonDeck)
       .call(deckInfographic);
 
   document.getElementById("deckname").value = jsonDeck.name;
+  document.getElementById("deckTweet").value = jsonDeck.description;
   document.getElementById("deck").value = jsonDeck.deckString;
 }
+
+WebFont.load({
+  google: {
+    families: ["Lato"]
+  },
+  active: function() {
+    var initialDeck = undefined;
+    if (db.length() > 0) {
+      initialDeck = db.query()[0];
+    }
+    if (initialDeck !== undefined) {
+      renderUI(initialDeck, 0);
+    }
+  }
+});
 
 var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
     clearDecksBtn = document.getElementById("clearDecks"),
     deckSelect = document.getElementById("deckDatabase");
-
-var initialDeck = undefined;
-if (db.length() > 0) {
-  initialDeck = db.query()[0];
-}
-if (initialDeck !== undefined) {
-  renderUI(initialDeck, 0);
-}
 
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
@@ -366,6 +372,7 @@ clearDecksBtn.addEventListener("click", function(event) {
 btn.addEventListener("click", function(event) {
   event.preventDefault();
   var deckname = decknameTxt.value || "Temp Name",
+      deckTweet = document.getElementById("deckTweet").value || "",
       deckString = document.getElementById("deck").value;
 
   // @todo Handle deck updating.
@@ -384,6 +391,7 @@ btn.addEventListener("click", function(event) {
   fetchCards(deckname, deckString, function(jsonDeck) {
     var deck = {
       name: deckname,
+      description: deckTweet,
       cards: jsonDeck,
       deckString: deckString
     };

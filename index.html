@@ -16,7 +16,6 @@
     <!-- Custom styles for this template -->
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/mtgcard.css" rel="stylesheet">
-    <link href="css/manaCurveChart.css" rel="stylesheet">
     <link href="https://cdn.rawgit.com/jninnes/mtgicons/v1.2.1/dist/mtgicons.css" rel="stylesheet">
   </head>
 
@@ -43,39 +42,14 @@
 
             <h4 class="sub-header">Card Entry</h2>
             <input id="deckname" type="text" class="form-control" placeholder="Deckname">
+            <textarea id="deckTweet" class="form-control" rows="3" maxlength="144" spellcheck="false"></textarea>
             <textarea id="deck" class="form-control" rows="25" spellcheck="false"></textarea>
             <button id="build" type="submit" class="btn btn-primary btn-block">Save</button>          
-          </span>
-
-          <span id="decklistSpan">
-            <h4 class="sub-header">Decklist</h2>
-            <div class="bs-example">
-              <ul id="decklist" class="list-group"></ul>
-            </div>            
           </span>
 
         </div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Mana Curve</h4>
-              <span id="manaCurve"></span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Colors</h4>
-              <span id="colorPieChart"></span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Card Types</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4>Mana Symbols</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </div>
-
           <div id="deckImage">
           </div>
 
@@ -92,6 +66,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
     <script src="js/manaCurveChart.js"></script>
     <script src="js/colorPieChart.js"></script>
     <script src="js/decklistInfographic.js"></script>
