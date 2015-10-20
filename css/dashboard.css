@@ -81,6 +81,11 @@ body {
   margin-top: 0;
 }
 
+#deckSampleImg {
+  max-width: 100%;
+  height: auto;
+  width: auto\9; /* ie8 */
+}
 
 /*
  * Placeholder dashboard ideas

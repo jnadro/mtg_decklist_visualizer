@@ -2,6 +2,10 @@ body {
   font-family: "Lato";
 }
 
+#splash {
+  margin-top: 30px;
+}
+
 canvas {
   margin: 25px;
 }
