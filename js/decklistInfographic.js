@@ -60,9 +60,9 @@ function decklistInfographic() {
       ctx.fillText(data.name, margin, 50);
 
       // draw the deck description
-      ctx.fillStyle = "rgb(128, 130, 133)";
-      ctx.font = "18px Lato";
-      ctx.fillText(data.description, margin, 100);
+      //ctx.fillStyle = "rgb(128, 130, 133)";
+      //ctx.font = "18px Lato";
+      //ctx.fillText(data.description, margin, 100);
 
       // draw the legal stuff at the bottom
       ctx.font = "10px Lato";

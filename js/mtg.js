@@ -269,7 +269,7 @@ function getSelectedDeckIndex() {
 }
 
 document.getElementById("deck").setAttribute("placeholder", testCards);
-document.getElementById("deckTweet").setAttribute("placeholder", "144 character deck description");
+//document.getElementById("deckTweet").setAttribute("placeholder", "144 character deck description");
 var db = new Database("Decks", "name"),
     manaCurve = manaCurveChart(),
     colorPie = colorPieChart(),
@@ -326,7 +326,7 @@ function renderUI(jsonDeck, selectedIdx) {
       .call(deckInfographic);
 
   document.getElementById("deckname").value = jsonDeck.name;
-  document.getElementById("deckTweet").value = jsonDeck.description;
+  //document.getElementById("deckTweet").value = jsonDeck.description;
   document.getElementById("deck").value = jsonDeck.deckString;
 }
 
@@ -372,7 +372,7 @@ clearDecksBtn.addEventListener("click", function(event) {
 btn.addEventListener("click", function(event) {
   event.preventDefault();
   var deckname = decknameTxt.value || "Temp Name",
-      deckTweet = document.getElementById("deckTweet").value || "",
+      //deckTweet = document.getElementById("deckTweet").value || "",
       deckString = document.getElementById("deck").value;
 
   // @todo Handle deck updating.
@@ -391,7 +391,7 @@ btn.addEventListener("click", function(event) {
   fetchCards(deckname, deckString, function(jsonDeck) {
     var deck = {
       name: deckname,
-      description: deckTweet,
+      //description: deckTweet,
       cards: jsonDeck,
       deckString: deckString
     };
