@@ -66,6 +66,15 @@ body {
   background-color: #428bca;
 }
 
+#legaDisclaimer {
+    color: #888;
+    font-size: 10px;
+    position: absolute;
+    display: inline-block;
+    bottom: 0;
+    left: 15px;
+}
+
 
 /*
  * Main content
