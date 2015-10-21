@@ -23,19 +23,60 @@ function decklistInfographic() {
     var maxDescriptionLength = 144;
     return description.substring(0, maxDescriptionLength).split("\n");
   }
+
+  function cloneObject(object) {
+    // http://heyjavascript.com/4-creative-ways-to-clone-objects/
+    return (JSON.parse(JSON.stringify(object)));
+  }
+
+  // Takes any stack of cards greater than 4 and splits
+  // them into additional piles.
+  function separatePiles(cards) {
+    var splitCards = [];
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (card.count > 4) {
+        // calculate how many mutliples of 4 we have
+        // and the remainder
+        var multiple = Math.ceil(card.count / 4),
+            remainder = card.count % 4;
+
+        // add each multiple of 4
+        for (var j = 0; j < multiple; j++) {
+          // clone the object.  this seems slow, but the internet said
+          // to do it.
+          var replicatedCard = cloneObject(card);
+          replicatedCard.count = 4;
+          splitCards.push(replicatedCard);
+        }
+
+        // add the remainder
+        var replicatedCard = cloneObject(card);
+        replicatedCard.count = remainder;
+        splitCards.push(replicatedCard);
+      }
+      else {
+        splitCards.push(card);
+      }
+    }
+    return splitCards;
+  }
  
   function chart(selection) {
     selection.each(function(data) {
+      var cards = separatePiles(data.cards);
+
       // number of rows is dependent on how many cards in total we
       // have and how many we can fit in a column.
-      var num_rows = Math.ceil(data.cards.length / num_cols);
+      var num_rows = Math.ceil(cards.length / num_cols);
       var canvas_w = (margin * 2) + (card_w * num_cols) + ((num_cols - 1) * card_padding_x),
           canvas_h =  (margin_top + margin_bottom) + 
                       (card_pile_h * num_rows) + ((num_rows - 1) * card_padding_x);
       
+
       // precalculate where each card should be drawn to
       var cardLocations = [];
-      for (var i = 0; i < data.cards.length; i++) {
+      for (var i = 0; i < cards.length; i++) {
         var c = i % num_cols, r = Math.floor(i / num_cols);
         cardLocations[i] = {
           x: (margin + card_w * c) + card_padding_x * c,
@@ -60,13 +101,12 @@ function decklistInfographic() {
       ctx.strokeRect(0, 0, canvas_w, canvas_h);
 
       // draw the deck name to the canvas
-      var decknameFontHeight = 48;
       ctx.fillStyle = "rgb(0, 0, 0)";
-      ctx.font = "bold " + decknameFontHeight + "px Lato";
+      ctx.font = "bold 48px Lato";
       ctx.fillText(data.name, margin, 50);
 
       // draw the deck description
-      var descriptionStartY = decknameFontHeight + margin, fontHeight = 12, descriptionIndent = 0;
+      var descriptionStartY = 75, fontHeight = 12, descriptionIndent = 0;
       var descriptionX = margin + descriptionIndent;
       ctx.fillStyle = "rgb(128, 130, 133)";
       ctx.font = fontHeight + "px Lato";
@@ -100,20 +140,20 @@ function decklistInfographic() {
       }
       
       var imageLoadCount = 0;
-      var images = new Array(data.cards.length);
+      var images = new Array(cards.length);
       
       var drawImagesCallback = function() {
         images.forEach(function(image, i) {
           var p = cardLocations[i];
           // draw the pile of cards
-          for (var j = 0; j < data.cards[i].count; j++) {
+          for (var j = 0; j < cards[i].count; j++) {
             ctx.drawImage(image, p.x, p.y + j * card_pile_padding_y);            
           }
         });
       };
       
       // for each unique card in the deck fetch its image.
-      data.cards.forEach(function(card, i) {
+      cards.forEach(function(card, i) {
         images[i] = new Image();
         images[i].src = card.gathererURL;
         images[i].onload = function() {
