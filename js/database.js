@@ -101,7 +101,7 @@ Database.prototype.update = function(i, value) {
     // if we found the object and they are the same
     // object (they have a unique ID and they match.)
     if (obj[this.uniqueId] === value[this.uniqueId] 
-        && value[this.uniqueId !== undefined]) {
+        && value[this.uniqueId] !== undefined) {
       this.data[i] = value;
       this.storage.setItem(this.name, JSON.stringify(this.data));
     }
