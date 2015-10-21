@@ -18,6 +18,11 @@ function decklistInfographic() {
     image.src = "data:image/svg+xml;base64," + btoa(svgHtml);
     image.onload = callback;
   }
+
+  function formatDeckDescription(description) {
+    var maxDescriptionLength = 144;
+    return description.substring(0, maxDescriptionLength).split("\n");
+  }
  
   function chart(selection) {
     selection.each(function(data) {
@@ -55,14 +60,24 @@ function decklistInfographic() {
       ctx.strokeRect(0, 0, canvas_w, canvas_h);
 
       // draw the deck name to the canvas
+      var decknameFontHeight = 48;
       ctx.fillStyle = "rgb(0, 0, 0)";
-      ctx.font = "bold 48px Lato";
+      ctx.font = "bold " + decknameFontHeight + "px Lato";
       ctx.fillText(data.name, margin, 50);
 
       // draw the deck description
-      //ctx.fillStyle = "rgb(128, 130, 133)";
-      //ctx.font = "18px Lato";
-      //ctx.fillText(data.description, margin, 100);
+      var descriptionStartY = decknameFontHeight + margin, fontHeight = 12, descriptionIndent = 0;
+      var descriptionX = margin + descriptionIndent;
+      ctx.fillStyle = "rgb(128, 130, 133)";
+      ctx.font = fontHeight + "px Lato";
+
+      var maxDescriptionLines = 3;
+      var formattedDescription = formatDeckDescription(data.description);
+      // truncate the array to maxDescriptionLines
+      formattedDescription.splice(maxDescriptionLines, formattedDescription.length - maxDescriptionLines);
+      for (var i = 0; (i < formattedDescription.length); i++) {
+        ctx.fillText(formattedDescription[i], descriptionX, descriptionStartY + fontHeight * i);
+      }
 
       // draw the legal stuff at the bottom
       ctx.font = "10px Lato";
