@@ -50,10 +50,12 @@ function decklistInfographic() {
           splitCards.push(replicatedCard);
         }
 
-        // add the remainder
-        var replicatedCard = cloneObject(card);
-        replicatedCard.count = remainder;
-        splitCards.push(replicatedCard);
+        if (remainder > 0) {
+          // add the remainder
+          var replicatedCard = cloneObject(card);
+          replicatedCard.count = remainder;
+          splitCards.push(replicatedCard);         
+        }
       }
       else {
         splitCards.push(card);
