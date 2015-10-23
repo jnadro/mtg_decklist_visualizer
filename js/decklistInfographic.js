@@ -69,7 +69,6 @@ function decklistInfographic() {
     selection.each(function(data) {
       var cards = separatePiles(data.cards);
 
-      console.log(card_pile_h);
       // number of rows is dependent on how many cards in total we
       // have and how many we can fit in a column.
       var num_rows = Math.ceil(cards.length / num_cols);
@@ -150,7 +149,7 @@ function decklistInfographic() {
         images.forEach(function(image, i) {
           var p = cardLocations[i];
           // draw the pile of cards
-          for (var j = 0; j < maxPileCount; j++) {
+          for (var j = 0; j < cards[i].count; j++) {
             ctx.drawImage(image, p.x, p.y + j * card_pile_padding_y);            
           }
         });
