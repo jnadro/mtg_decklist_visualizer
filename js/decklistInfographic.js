@@ -4,9 +4,10 @@ function decklistInfographic() {
       card_w = 223, card_h = 311,
       num_cols = 4;
       card_padding_x = 10,
-      card_pile_padding_y = 34;
+      card_pile_padding_y = 34,
+      maxPileCount = 4;
 
-  var card_pile_h = card_h + 3 * card_pile_padding_y;
+  var card_pile_h = card_h + (maxPileCount - 1) * card_pile_padding_y;
 
   var manaCurveChartSvg = undefined,
       manaCurveX = 0, manaCurveY = 0,
@@ -35,18 +36,18 @@ function decklistInfographic() {
     var splitCards = [];
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
-      if (card.count > 4) {
+      if (card.count > maxPileCount) {
         // calculate how many mutliples of 4 we have
         // and the remainder
-        var multiple = Math.ceil(card.count / 4),
-            remainder = card.count % 4;
+        var multiple = Math.ceil(card.count / maxPileCount),
+            remainder = card.count % maxPileCount;
 
         // add each multiple of 4
         for (var j = 0; j < multiple; j++) {
           // clone the object.  this seems slow, but the internet said
           // to do it.
           var replicatedCard = cloneObject(card);
-          replicatedCard.count = 4;
+          replicatedCard.count = maxPileCount;
           splitCards.push(replicatedCard);
         }
 
@@ -68,13 +69,14 @@ function decklistInfographic() {
     selection.each(function(data) {
       var cards = separatePiles(data.cards);
 
+      console.log(card_pile_h);
       // number of rows is dependent on how many cards in total we
       // have and how many we can fit in a column.
       var num_rows = Math.ceil(cards.length / num_cols);
       var canvas_w = (margin * 2) + (card_w * num_cols) + ((num_cols - 1) * card_padding_x),
-          canvas_h =  (margin_top + margin_bottom) + 
-                      (card_pile_h * num_rows) + ((num_rows - 1) * card_padding_x);
-      
+          heightOfAllRows    = (card_pile_h * num_rows),
+          paddingBetweenRows = ((num_rows - 1) * card_padding_x),
+          canvas_h =  margin_top + margin_bottom + heightOfAllRows + paddingBetweenRows;
 
       // precalculate where each card should be drawn to
       var cardLocations = [];
@@ -148,7 +150,7 @@ function decklistInfographic() {
         images.forEach(function(image, i) {
           var p = cardLocations[i];
           // draw the pile of cards
-          for (var j = 0; j < cards[i].count; j++) {
+          for (var j = 0; j < maxPileCount; j++) {
             ctx.drawImage(image, p.x, p.y + j * card_pile_padding_y);            
           }
         });
