@@ -7,8 +7,6 @@ function decklistInfographic() {
       card_pile_padding_y = 34,
       maxPileCount = 4;
 
-  var card_pile_h = card_h + (maxPileCount - 1) * card_pile_padding_y;
-
   var manaCurveChartSvg = undefined,
       manaCurveX = 0, manaCurveY = 0,
       colorPieChartSvg = undefined,
@@ -72,9 +70,30 @@ function decklistInfographic() {
       // number of rows is dependent on how many cards in total we
       // have and how many we can fit in a column.
       var num_rows = Math.ceil(cards.length / num_cols);
+
+      // find the biggest card pile in each row
+      // knowing how big each card pile will stack we
+      // can determine the canvas size, and where each
+      // row should be drawn.
+      var rowMaxCardCounts = [];
+      for (var i = 0; i < num_rows; i++) { rowMaxCardCounts.push(0); }
+      for (var i = 0; i < cards.length; i++) {
+        var r = Math.floor(i / num_cols);
+        rowMaxCardCounts[r] = Math.max(cards[i].count, rowMaxCardCounts[r]);
+      }
+
+      var heightOfAllRows = 0;    // keep a running total of the height of all rows
+      var rowPositionY = [];      // cache off where each row starts
+      for (var i = 0; i < rowMaxCardCounts.length; i++) {
+        rowPositionY.push(heightOfAllRows);
+        heightOfAllRows += card_h + (rowMaxCardCounts[i] - 1) * card_pile_padding_y;
+      }
+
       var canvas_w = (margin * 2) + (card_w * num_cols) + ((num_cols - 1) * card_padding_x),
-          heightOfAllRows    = (card_pile_h * num_rows),
           paddingBetweenRows = ((num_rows - 1) * card_padding_x),
+          // the height of the canvas is the top and bottom margin,
+          // the height of each row (which varies) and how much 
+          // padding between all rows.
           canvas_h =  margin_top + margin_bottom + heightOfAllRows + paddingBetweenRows;
 
       // precalculate where each card should be drawn to
@@ -83,7 +102,7 @@ function decklistInfographic() {
         var c = i % num_cols, r = Math.floor(i / num_cols);
         cardLocations[i] = {
           x: (margin + card_w * c) + card_padding_x * c,
-          y: (margin_top + card_pile_h * r) + (card_padding_x * r)
+          y: (margin_top + rowPositionY[r]) + (card_padding_x * r)
         };
       }
       
@@ -95,7 +114,6 @@ function decklistInfographic() {
       var ctx = canvas.node().getContext("2d");
 
       // fill with white.
-      //ctx.fillStyle = "#EEEDEC";
       ctx.fillStyle = "rgb(251, 250, 245)";
       ctx.fillRect(0, 0, canvas_w, canvas_h);
 
