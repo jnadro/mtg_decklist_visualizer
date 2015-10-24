@@ -170,6 +170,14 @@ function decklistInfographic() {
           for (var j = 0; j < cards[i].count; j++) {
             ctx.drawImage(image, p.x, p.y + j * card_pile_padding_y, card_w, card_h);            
           }
+
+          // draw black rect to hack around the fact that some jpegs have white corners
+          var bw = 9 // border width
+          ctx.fillStyle = "black";
+          // draw a rect going down the left side of the card
+          ctx.fillRect(p.x, p.y + bw, bw, card_pile_padding_y * maxPileCount);
+          // draw a rect going down the right side of the card
+          ctx.fillRect(p.x + card_w - bw, p.y + bw, bw, card_pile_padding_y * maxPileCount);
         });
       };
       
