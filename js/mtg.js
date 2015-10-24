@@ -366,8 +366,12 @@ deckSelect.addEventListener("change", function(event) {
 
 clearDecksBtn.addEventListener("click", function(event) {
   event.preventDefault();
-  db.clear();
-  clearUI();
+  db.delete(getSelectedDeckIndex());
+
+  var decks = db.query();
+  if (decks.length > 0) {
+    renderUI(decks[0], 0);     
+  }
 });
 
 btn.addEventListener("click", function(event) {
