@@ -371,6 +371,9 @@ clearDecksBtn.addEventListener("click", function(event) {
   var decks = db.query();
   if (decks.length > 0) {
     renderUI(decks[0], 0);     
+  } else if (decks.length === 0) {
+    clearUI();
+    document.getElementById("splash").style.display = "block";
   }
 });
 
