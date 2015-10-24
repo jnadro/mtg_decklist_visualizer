@@ -1,7 +1,7 @@
 function decklistInfographic() {
   var margin_top = 185, margin_bottom = 50;
   var margin = 20,
-      card_w = 223, card_h = 311,
+      card_w = 223 * 1.0, card_h = 311 * 1.0,
       num_cols = 4;
       card_padding_x = 10,
       card_pile_padding_y = 34,
@@ -168,7 +168,7 @@ function decklistInfographic() {
           var p = cardLocations[i];
           // draw the pile of cards
           for (var j = 0; j < cards[i].count; j++) {
-            ctx.drawImage(image, p.x, p.y + j * card_pile_padding_y);            
+            ctx.drawImage(image, p.x, p.y + j * card_pile_padding_y, card_w, card_h);            
           }
         });
       };
