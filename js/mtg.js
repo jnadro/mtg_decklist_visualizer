@@ -294,6 +294,7 @@ function clearUI() {
   document.getElementById("visualdecklist").innerHTML  = "";
   document.getElementById("deckDatabase").innerHTML = "";
   document.getElementById("deckname").value = "";
+  document.getElementById("deckTweet").value = "";
   document.getElementById("deck").value = "";
 }
 
