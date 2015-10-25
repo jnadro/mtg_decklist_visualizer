@@ -268,8 +268,10 @@ function getSelectedDeckIndex() {
   return document.getElementById("deckDatabase").selectedIndex;
 }
 
+var deckTweetPlaceholder = "144 character deck description";
+
 document.getElementById("deck").setAttribute("placeholder", testCards);
-document.getElementById("deckTweet").setAttribute("placeholder", "144 character deck description");
+document.getElementById("deckTweet").setAttribute("placeholder", deckTweetPlaceholder);
 var db = new Database("Decks", "name"),
     manaCurve = manaCurveChart(),
     colorPie = colorPieChart(),
@@ -351,6 +353,19 @@ var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
     clearDecksBtn = document.getElementById("clearDecks"),
     deckSelect = document.getElementById("deckDatabase");
+
+
+// onFocus events for text fields
+// @todo cache off these elements somewhere.
+decknameTxt.addEventListener("focus", function() { this.placeholder = ""; });
+decknameTxt.addEventListener("focusout", function() { this.placeholder = "Deckname"; });
+
+document.getElementById("deckTweet").addEventListener("focus", function() { this.placeholder = ""; });
+document.getElementById("deckTweet").addEventListener("focusout", function() { this.placeholder = deckTweetPlaceholder; });
+
+document.getElementById("deck").addEventListener("focus", function() { this.placeholder = ""; });
+document.getElementById("deck").addEventListener("focusout", function() { this.placeholder = testCards; });
+
 
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
