@@ -195,6 +195,7 @@ function decklistInfographic() {
                    5, canvas_h - 5);
 
       ctx.font = "16px Lato";
+      ctx.fillStyle = "#66757F";
       ctx.fillText("@MTGDeckScry", canvas_w - 130, canvas_h - 12);
 
       var paddingTop = 15;
