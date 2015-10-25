@@ -63,6 +63,14 @@ function decklistInfographic() {
     return splitCards;
   }
 
+  // performs in place sort based on mana cost.
+  // sort ascending.
+  function sortByManaCost(cards) {
+    cards.sort(function(a, b) {
+      return a.cmc - b.cmc;
+    });
+  }
+
   function sortDeckByCardType(cards) {
     // this is super hardcoded, but will only change
     // if wizards adds a new card type.
@@ -87,6 +95,15 @@ function decklistInfographic() {
         }
       }
     });
+
+    sortByManaCost(creature);
+    sortByManaCost(planeswalker);
+    sortByManaCost(artifact);
+    sortByManaCost(instant);
+    sortByManaCost(sorcery);
+    sortByManaCost(enchantment);
+    sortByManaCost(land);
+
     return creature.concat(planeswalker).concat(artifact).concat(instant).concat(sorcery).concat(enchantment).concat(land);
   }
  
