@@ -17,7 +17,11 @@ function beautifyNameForURL(cardname) {
 }
 
 function cardImageURL(cardname) {
-    return "http://gatherer.wizards.com/Handlers/Image.ashx?name=" + beautifyNameForURL(cardname) + "&type=card&.jpg";
+  return "http://gatherer.wizards.com/Handlers/Image.ashx?name=" + beautifyNameForURL(cardname) + "&type=card&.jpg";
+}
+
+function cardImageURLFromId(metaverseId) {
+  return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + metaverseId + "&type=card";
 }
 
 // Copies over all properties from obj1 into obj2
@@ -40,15 +44,30 @@ function decklistToJSON(decklistString, callback) {
   // lines that begin with any number of digits, followed by spaced, followed by any number of non digit characters
   // including apostrophe's and comma's.
   var re = /^(\d*)\s([\D']*)/,
+      reSet = /^(\d*)\s\[(\w*)\]\s([\D']*)/,
       decklistJSON = [];
 
   lines.map(function(line) {
-    var results = re.exec(line.trim());
-    if (results != null) {
+    var trimmed = line.trim();
+    var setResults = reSet.exec(trimmed),
+        results = re.exec(trimmed);
+    if (setResults != null) {
+      var cardname = setResults[3],
+          setname = setResults[2];
+      decklistJSON.push({
+        name: cardname.trim(),
+        count: parseInt(setResults[1]),
+        set: setname,
+        // will need to calculate this later when I have a different metaverse id.
+        gathererURL: cardImageURL(cardname)
+      });
+    }
+    else if (results != null) {
       var cardname = results[2];
       decklistJSON.push({
         name: cardname.trim(),
         count: parseInt(results[1]),
+        // will need to calculate this later when I have a different multiverse id.
         gathererURL: cardImageURL(cardname)
       });
     }
@@ -79,7 +98,26 @@ function requestCardData(cards, callback) {
             return card.name.toLowerCase() === item.name.toLowerCase();
           });
 
-          mergeObject(cardJSON[0], card);
+          // default to the first card found.
+          var foundCard = cardJSON[0];
+
+          // if the user specified a set find that version.
+          if (card.set !== undefined) {
+            for (var i = 0; i < foundCard.editions.length; i++) {
+              var edition = foundCard.editions[i];
+              if (edition.set_id === card.set) {
+                // if we do find that we need to set the gatherer image link
+                // based on the metaverse id.
+                // only if this is a valid multiverse id
+                if (edition.multiverse_id > 0) {
+                  card.gathererURL = cardImageURLFromId(edition.multiverse_id);
+                }
+                break;
+              }              
+            }
+          }
+
+          mergeObject(foundCard, card);
         }
         else {
           console.log("Could not find " + card.name + " in the database.");
