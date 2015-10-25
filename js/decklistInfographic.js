@@ -62,10 +62,42 @@ function decklistInfographic() {
     }
     return splitCards;
   }
+
+  function sortDeckByCardType(cards) {
+    // this is super hardcoded, but will only change
+    // if wizards adds a new card type.
+    var creature = [], planeswalker = [], artifact = [], instant = [], sorcery = [], enchantment = [], land = [];
+    cards.forEach(function(d, i) {
+      if (d.types) {
+        var type = d.types[0];
+        if (type === "creature") {
+          creature.push(d);
+        } else if (type === "planeswalker") {
+          planeswalker.push(d);
+        } else if (type === "artifact") {
+          artifact.push(d);
+        } else if (type === "instant") {
+          instant.push(d);
+        } else if (type === "sorcery") {
+          sorcery.push(d);
+        } else if (type === "enchantment") {
+          enchantment.push(d);
+        } else if (type === "land") {
+          land.push(d);
+        }
+      }
+    });
+    return creature.concat(planeswalker).concat(artifact).concat(instant).concat(sorcery).concat(enchantment).concat(land);
+  }
  
   function chart(selection) {
     selection.each(function(data) {
       var cards = separatePiles(data.cards);
+
+      // sort the cards based on card type.
+      if (data.bSortDeck) {
+        cards = sortDeckByCardType(cards);
+      }
 
       // number of rows is dependent on how many cards in total we
       // have and how many we can fit in a column.

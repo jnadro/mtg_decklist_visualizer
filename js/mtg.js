@@ -298,6 +298,7 @@ function clearUI() {
   document.getElementById("deckname").value = "";
   document.getElementById("deckTweet").value = "";
   document.getElementById("deck").value = "";
+  document.getElementById("deckSort").checked = false;
 }
 
 /**
@@ -332,6 +333,7 @@ function renderUI(jsonDeck, selectedIdx) {
   document.getElementById("deckname").value = jsonDeck.name;
   document.getElementById("deckTweet").value = jsonDeck.description;
   document.getElementById("deck").value = jsonDeck.deckString;
+  document.getElementById("deckSort").checked = jsonDeck.bSortDeck;
 }
 
 WebFont.load({
@@ -397,7 +399,8 @@ btn.addEventListener("click", function(event) {
   event.preventDefault();
   var deckname = decknameTxt.value || "Temp Name",
       deckTweet = document.getElementById("deckTweet").value || "",
-      deckString = document.getElementById("deck").value;
+      deckString = document.getElementById("deck").value,
+      bSortDeck = document.getElementById("deckSort").checked;
 
   // @todo Handle deck updating.
   // 1. check to see if the deck exists
@@ -417,7 +420,8 @@ btn.addEventListener("click", function(event) {
       name: deckname,
       description: deckTweet,
       cards: jsonDeck,
-      deckString: deckString
+      deckString: deckString,
+      bSortDeck: bSortDeck
     };
 
     if (bNeedsUpdate) {
