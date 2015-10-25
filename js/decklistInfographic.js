@@ -194,7 +194,9 @@ function decklistInfographic() {
       ctx.fillText("Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. © 1995-2015 Wizards.",
                    5, canvas_h - 5);
 
-      
+      ctx.font = "16px Lato";
+      ctx.fillText("@MTGDeckScry", canvas_w - 130, canvas_h - 12);
+
       var paddingTop = 15;
       // draw svg image to the canvas.
       if (manaCurveChartSvg !== undefined) {
