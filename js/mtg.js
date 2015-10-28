@@ -356,7 +356,7 @@ WebFont.load({
   }
 });
 
-function processDeckString(deckname, deckDescription, deckString, bSortDeck, bNeedsUpdate) {
+function processDeckString(deckname, deckDescription, deckString, bSortDeck, selectedIndex, bNeedsUpdate) {
   fetchCards(deckname, deckString, function(jsonDeck) {
     var deck = {
       name: deckname,
@@ -406,8 +406,9 @@ importDeckInput.addEventListener("change", function(event) {
           deckTweet = "",
           deckString = e.target.result,
           bSortDeck = document.getElementById("deckSort").checked,
+          selectedIdx = 0,
           bNeedsUpdate = false;
-      processDeckString(deckname, deckTweet, deckString, bSortDeck, bNeedsUpdate);
+      processDeckString(deckname, deckTweet, deckString, bSortDeck, selectedIdx, bNeedsUpdate);
     };
     reader.readAsText(file);
   }
@@ -457,5 +458,5 @@ btn.addEventListener("click", function(event) {
     }
   }
 
-  processDeckString(deckname, deckTweet, deckString, bSortDeck, bNeedsUpdate);
+  processDeckString(deckname, deckTweet, deckString, bSortDeck, selectedIndex, bNeedsUpdate);
 });
