@@ -45,13 +45,26 @@ function decklistToJSON(decklistString, callback) {
   // including apostrophe's and comma's.
   var re = /^(\d*)\s([\D']*)/,
       reSet = /^(\d*)\s\[(\w*)\]\s([\D']*)/,
+      reSB = /^SB:[ \t]+(\d*)\s([\D']*)/,           // matches: SB:  3 Blood Moon
       decklistJSON = [];
 
   lines.map(function(line) {
     var trimmed = line.trim();
     var setResults = reSet.exec(trimmed),
-        results = re.exec(trimmed);
-    if (setResults != null) {
+        results = re.exec(trimmed),
+        sbResults = reSB.exec(trimmed);
+
+    if (sbResults != null) {
+      var cardname = sbResults[2];
+      decklistJSON.push({
+        name: cardname.trim(),
+        count: parseInt(sbResults[1]),
+        // will need to calculate this later when I have a different multiverse id.
+        gathererURL: cardImageURL(cardname),
+        sideboard: true
+      });
+    }
+    else if (setResults != null) {
       var cardname = setResults[3],
           setname = setResults[2];
       decklistJSON.push({
@@ -59,7 +72,8 @@ function decklistToJSON(decklistString, callback) {
         count: parseInt(setResults[1]),
         set: setname,
         // will need to calculate this later when I have a different metaverse id.
-        gathererURL: cardImageURL(cardname)
+        gathererURL: cardImageURL(cardname),
+        sideboard: false
       });
     }
     else if (results != null) {
@@ -68,7 +82,8 @@ function decklistToJSON(decklistString, callback) {
         name: cardname.trim(),
         count: parseInt(results[1]),
         // will need to calculate this later when I have a different multiverse id.
-        gathererURL: cardImageURL(cardname)
+        gathererURL: cardImageURL(cardname),
+        sideboard: false
       });
     }
   });

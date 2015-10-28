@@ -313,12 +313,17 @@ function renderUI(jsonDeck, selectedIdx) {
 
   renderDropdown("#deckDatabase", db.query(), selectedIdx);
 
-  var manaCurveData = calculateManaCurve(jsonDeck.cards);
+  // filter out sideboard cards.
+  var maindeck = jsonDeck.cards.filter(function(d) {
+    return d.sideboard === false;
+  });
+
+  var manaCurveData = calculateManaCurve(maindeck);
   var manaCurveDiv = d3.select(document.createElement("div"))
                       .datum(manaCurveData)
                       .call(manaCurve);
 
-  var colorData = countCardColors(jsonDeck.cards);
+  var colorData = countCardColors(maindeck);
   var pieChartDiv = d3.select(document.createElement("div"))
                     .datum(colorData)
                     .call(colorPie);
