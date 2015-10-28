@@ -359,7 +359,8 @@ WebFont.load({
 var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
     clearDecksBtn = document.getElementById("clearDecks"),
-    deckSelect = document.getElementById("deckDatabase");
+    deckSelect = document.getElementById("deckDatabase"),
+    importDeckInput = document.getElementById("importDeckInput");
 
 
 // onFocus events for text fields
@@ -373,6 +374,16 @@ document.getElementById("deckTweet").addEventListener("focusout", function() { t
 document.getElementById("deck").addEventListener("focus", function() { this.placeholder = ""; });
 document.getElementById("deck").addEventListener("focusout", function() { this.placeholder = testCards; });
 
+importDeckInput.addEventListener("change", function(event) {
+  // only deal with the first file.
+  if (this.files.length > 0) {
+    var file = this.files[0];
+    // async load of file
+    var reader = new FileReader();
+    reader.onload = function(e) { console.log(e.target.result); };
+    reader.readAsText(file);
+  }
+}, false);
 
 deckSelect.addEventListener("change", function(event) {
   var decks = db.query(),
