@@ -356,6 +356,27 @@ WebFont.load({
   }
 });
 
+function processDeckString(deckname, deckDescription, deckString, bSortDeck, bNeedsUpdate) {
+  fetchCards(deckname, deckString, function(jsonDeck) {
+    var deck = {
+      name: deckname,
+      description: deckDescription,
+      cards: jsonDeck,
+      deckString: deckString,
+      bSortDeck: bSortDeck
+    };
+
+    if (bNeedsUpdate) {
+      db.update(selectedIndex, deck);
+      renderUI(deck, selectedIndex);
+    }
+    else {
+      var i = db.insert(deck);
+      renderUI(deck, i);
+    }
+  });
+}
+
 var btn = document.getElementById("build"),
     decknameTxt = document.getElementById("deckname"),
     clearDecksBtn = document.getElementById("clearDecks"),
@@ -380,7 +401,14 @@ importDeckInput.addEventListener("change", function(event) {
     var file = this.files[0];
     // async load of file
     var reader = new FileReader();
-    reader.onload = function(e) { console.log(e.target.result); };
+    reader.onload = function(e) {
+      var deckname = file.name,
+          deckTweet = "",
+          deckString = e.target.result,
+          bSortDeck = document.getElementById("deckSort").checked,
+          bNeedsUpdate = false;
+      processDeckString(deckname, deckTweet, deckString, bSortDeck, bNeedsUpdate);
+    };
     reader.readAsText(file);
   }
 }, false);
@@ -418,10 +446,9 @@ btn.addEventListener("click", function(event) {
       deckString = document.getElementById("deck").value,
       bSortDeck = document.getElementById("deckSort").checked;
 
-  // @todo Handle deck updating.
-  // 1. check to see if the deck exists
-  //    and if it does update the database with
-  //    the new deck.
+  // check to see if the deck exists
+  // and if it does update the database with
+  // the new deck.
   var selectedIndex = getSelectedDeckIndex(),
       bNeedsUpdate = false;
   if (db.length() > 0 && selectedIndex < db.length()) {
@@ -430,24 +457,5 @@ btn.addEventListener("click", function(event) {
     }
   }
 
-  // 2. else fetch the cards
-  fetchCards(deckname, deckString, function(jsonDeck) {
-    var deck = {
-      name: deckname,
-      description: deckTweet,
-      cards: jsonDeck,
-      deckString: deckString,
-      bSortDeck: bSortDeck
-    };
-
-    if (bNeedsUpdate) {
-      db.update(selectedIndex, deck);
-      renderUI(deck, selectedIndex);
-    }
-    else {
-      var i = db.insert(deck);
-      renderUI(deck, i);
-    }
-
-  });
+  processDeckString(deckname, deckTweet, deckString, bSortDeck, bNeedsUpdate);
 });
